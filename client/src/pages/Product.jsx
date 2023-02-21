@@ -12,18 +12,25 @@ const Product = () => {
     useEffect(() => {
       const fetchData = async () => {
           const res = await axios.get(`http://localhost:8800/api/items/${id}`);
-          setData(res.data);
-          console.log(data)
-    
+          setData(res.data);    
       };
       fetchData();
-
-  
+      console.log(data)
     },[])
     return (
-      <div className="mt-11 mb-10">
-        
-          </div>
+      <div className="my-20">
+        <div className=''>
+        <img src={data.img} className="h-96"/>
+    </div>
+        <p> title is{data.title}</p>
+        <p>description is {data.desc}</p>
+        <p> rating is{data.rating}</p>
+        <p>{data.desc}</p>
+        <p> category is {data.categorie}</p>
+        <p>price is {data.price}</p>
+            <div>
+        </div>
+        </div>
     );}
   
   export default Product;
