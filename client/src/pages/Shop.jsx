@@ -14,12 +14,11 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import CardPost from "../Components/CardPost";
-import SideCard from "../Components/SideCard";
-
+import {useNavigate} from "react-router-dom"
 
 
 const Shop = () => {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +30,8 @@ const Shop = () => {
       }
     };
     fetchData();
-    console.log(items)
-  }, [])
+
+  },[])
   return (
     <div className="mt-11 mb-10">
       <Typography
@@ -52,10 +51,13 @@ const Shop = () => {
             sm: "row",
             xs: "column",
           },
-          justifyContent: "space-between"
-        }}
+          justifyContent: "space-between",
+          gap:{
+            sm:"9rem",
+            xs:"1rem"
+        }}}
       >
-        <div style={{ flex: "1" }} className="mb-10 mr-14">
+        <div style={{ flex: "1" }} className="mb-10">
           <div className="border border-solid bg-gray-200 p-3">
             <Typography fontWeight="600">Toutes Les Catégories</Typography>
             <div className="flex items-center justify-content-center">
@@ -91,7 +93,7 @@ const Shop = () => {
           style={{ flex: 7 }}
         >
           {items.map((item) => (
-            <>
+            <div key={item._id}>
               <Card sx={{ maxWidth: 300 }} raised>
                 <CardMedia
                   component="img"
@@ -111,10 +113,10 @@ const Shop = () => {
                 </CardContent>
                 <CardActions>
                   <Button size="small">{item.price}</Button>
-                  <Button size="small">Voir plus</Button>
+                  <Button size="small" onClick={()=>{navigate(`${item._id}`)}}>Voir plus</Button>
                 </CardActions>
               </Card>
-            </>
+            </div>
           ))}
         </div>
       </Box >
