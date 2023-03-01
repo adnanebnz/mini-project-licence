@@ -4,9 +4,17 @@ import logoo from "../assets/logoo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Badge, IconButton } from "@mui/material";
+import { ShoppingBagOutlined } from "@mui/icons-material";
+import { setIsCartOpen } from "../state";
+
 export default function Header() {
   const [navbarState, setNavbarState] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
+
   return (
     <>
       <Nav>
@@ -39,6 +47,29 @@ export default function Header() {
           </li>
         </ul>
         <div className="flex gap-4">
+          
+        <Badge
+            badgeContent={cart.length}
+            color="secondary"
+            invisible={cart.length === 0}
+            sx={{
+              "& .MuiBadge-badge": {
+                right: 5,
+                top: 5,
+                padding: "0 4px",
+                height: "14px",
+                minWidth: "13px",
+              },
+            }}
+          >
+            <IconButton
+              onClick={() => dispatch(setIsCartOpen({}))}
+              sx={{ color: "black" }}
+            >
+              <ShoppingBagOutlined />
+            </IconButton>
+          </Badge>
+
           <button onClick={() => navigate("/login")}>Se connecter</button>
           <button onClick={() => navigate("/register")}>Créer un compte</button>
         </div>
@@ -74,6 +105,12 @@ export default function Header() {
             <Link to="/register" onClick={() => setNavbarState(false)}>
               Créer un Compte
             </Link>
+          </li>
+          <li>
+            <Link to="/cart" onClick={() => setNavbarState(false)}>
+              Panier
+            </Link>
+
           </li>
         </ul>
       </ResponsiveNav>
@@ -162,7 +199,7 @@ const ResponsiveNav = styled.div`
   z-index: 1;
   top: ${({ state }) => (state ? "90px" : "-400px")};
   background-color: white;
-  height: 40vh;
+  height: 50vh;
   width: 100%;
   align-items: center;
   transition: 0.3s ease-in-out;

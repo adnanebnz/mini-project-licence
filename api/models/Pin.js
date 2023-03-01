@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const PinSchema = new mongoose.Schema(
   {
-    username: {
+    organizer: {
       type: String,
       require: true,
     },
@@ -31,25 +31,25 @@ const PinSchema = new mongoose.Schema(
     },
     level: {
       type: String,
-      require: true
+      require: true,
     },
     places: {
       type: Number,
-      require: true
+      require: true,
     },
     duration: {
       type: Number,
       require: true,
-      default: 1
+      default: 1,
     },
     price: {
       type: String,
-      require: true
+      require: true,
     },
     img: {
       type: String,
-      require: true
-    }
+      require: true,
+    },
 
     //TODO: WEATHER AND DATE how many people will come familial or friends organizer also organizer profile and skills how many males and females in a single hiking stuff to bring for the hike like foods and utilities PLACE TO MEET TO START THE HIKE
   },

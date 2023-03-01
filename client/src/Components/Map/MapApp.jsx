@@ -28,7 +28,6 @@ export default function MapApp() {
 
     const MAPBOX_TOKEN = "pk.eyJ1Ijoic2tpbGx6ZGV2IiwiYSI6ImNsZThrbmV0NjA3NjEzeW8zZTNoN3NremEifQ.J2OUiRda51tADGWwnH-cuw";
 
-    const currentUser = "skillz";
     return (
         <Map
             initialViewState={{
@@ -59,15 +58,15 @@ export default function MapApp() {
                             anchor="left"
                         >
                             <div className="card">
-                                <label>Place</label>
+                                <label className="label">Place</label>
                                 <h4 className="place">{p.title}</h4>
-                                <label>Review</label>
+                                <label className="label">Review</label>
                                 <p className="desc">{p.desc}</p>
-                                <label>Rating</label>
+                                <label className="label">Rating</label>
                                 <div className="stars">
                                     {Array(p.rating).fill(<StarIcon className="star" />)}
                                 </div>
-                                <label>Information</label>
+                                <label className="label">Information</label>
                                 <span className="username">
                                     Created by <b>{p.username}</b>
                                 </span>

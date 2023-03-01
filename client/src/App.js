@@ -11,13 +11,14 @@ import Contact from "./pages/Contact";
 import { About } from "./pages/About";
 import Product from "./pages/Product";
 import ScrollToTop from "./Components/ScrollToTop";
-
+import CartMenu from "./Components/CartMenu";
 const Layout = () => {
   return (
     <div className="m-4">
       <ScrollToTop />
       <Header />
       <Outlet />
+      <CartMenu />
       <Footer />
     </div>
   );
