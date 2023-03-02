@@ -27,7 +27,6 @@ const CartMenu = () => {
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.price;
   }, 0);
-console.log(cart)
   return (
     <Box
       display={isCartOpen ? "block" : "none"}
@@ -60,7 +59,7 @@ console.log(cart)
           {/* CART LIST */}
           <Box>
             {cart.map((item) => (
-              <Box key={`${item.id}-${item.id}`}>
+              <Box key={`${item._id}-${item._id}`}>
                 <FlexBox p="15px 0">
                   <Box flex="1 1 40%">
                   <img
@@ -77,7 +76,7 @@ console.log(cart)
                       </Typography>
                       <IconButton
                         onClick={() =>
-                          dispatch(removeFromCart({ id: item.id }))
+                          dispatch(removeFromCart({ _id: item._id }))
                         }
                       >
                         <CloseIcon />
@@ -92,7 +91,7 @@ console.log(cart)
                       >
                         <IconButton
                           onClick={() =>
-                            dispatch(decreaseCount({ id: item.id }))
+                            dispatch(decreaseCount({ _id: item._id }))
                           }
                         >
                           <RemoveIcon />
@@ -100,7 +99,7 @@ console.log(cart)
                         <Typography>{item.count}</Typography>
                         <IconButton
                           onClick={() =>
-                            dispatch(increaseCount({ id: item.id }))
+                            dispatch(increaseCount({ _id: item._id }))
                           }
                         >
                           <AddIcon />

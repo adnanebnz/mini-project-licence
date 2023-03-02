@@ -49,6 +49,7 @@ const Header=()=> {
         <div className="flex gap-4">
           
         <Badge
+        className="badge"
             badgeContent={cart.length}
             color="error"
             invisible={cart.length === 0}
@@ -191,6 +192,9 @@ const Nav = styled.nav`
     }
     .button {
       display: none;
+    }
+    .badge{
+      display:none;
     }
     .cart{
       display:none;

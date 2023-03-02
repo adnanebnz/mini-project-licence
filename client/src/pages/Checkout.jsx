@@ -1,174 +1,217 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Container, TextField, Checkbox, FormControlLabel} from "@mui/material";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
+import { useSelector } from "react-redux";
+import { Box, Button, Stepper, Step, StepLabel } from "@mui/material";
+import { Formik } from "formik";
+import { useState } from "react";
+import * as yup from "yup";
+import Payment from "./Payment";
+import Shipping from "./Shipping";
+import { loadStripe } from "@stripe/stripe-js";
 
-const steps = ["Remplir vos Informations", "Payer"];
+const stripePromise = loadStripe(
+  "pk_test_51MPSH6KX3Z9zsfWLmrhZ9jmab0SRFoMjP70K8pJe6aC05CXTvDuKsnCB2MVMR5UlNnLBA2TKuSnVNshFDJ6RTGMl00eMlZHhtE"
+);
+
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set());
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
+  const cart = useSelector((state) => state.cart.cart);
+  const isFirstStep = activeStep === 0;
+  const isSecondStep = activeStep === 1;
 
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
+  const handleFormSubmit = async (values, actions) => {
+    setActiveStep(activeStep + 1);
 
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+    // this copies the billing address onto shipping address
+    if (isFirstStep && values.shippingAddress.isSameAddress) {
+      actions.setFieldValue("shippingAddress", {
+        ...values.billingAddress,
+        isSameAddress: true,
+      });
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
+    if (isSecondStep) {
+      makePayment(values);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
+    actions.setTouched({});
+  };
+
+  async function makePayment(values) {
+    const stripe = await stripePromise;
+    const requestBody = {
+      userName: [values.firstName, values.lastName].join(" "),
+      email: values.email,
+      products: cart.map(({ _id, count }) => ({
+        _id,
+        count,
+      })),
+    };
+
+    const response = await fetch("http://localhost:8800/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody),
     });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+    const session = await response.json();
+    await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+  }
 
   return (
-    <Container>
-      <Box sx={{ width: "100%", marginTop: "2rem", marginBottom: "2rem" }}>
-        <Stepper activeStep={activeStep}>
-          {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
-            if (isStepOptional(index)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
-              );
-            }
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        <form className="mt-8 flex gap-3 flex-col">
-          <div className="flex gap-5 items-center justify-center">
-            <TextField
-              fullwidth
-              id="outlined-basic"
-              label="Nom"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              fullwidth
-              id="outlined-basic"
-              label="Prenom"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-          </div>
-          <div className="flex gap-5 items-center justify-center">
-            <TextField
-              fullwidth
-              id="outlined-basic"
-              label="Adresse 1"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              fullwidth
-              id="outlined-basic"
-              label="Adresse 2"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-          </div>
-          <div className="flex gap-5 items-center justify-center">
-            <TextField
-              id="outlined-basic"
-              label="Ville"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              inputProps={{ inputMode: "numeric" }}
-              id="outlined-basic"
-              label="Code postale"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-          </div>
-          <div className="flex gap-5 items-center justify-center">
-          <TextField
-              id="outlined-basic"
-              label="Numero de carte"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              inputProps={{ inputMode: "numeric" }}
-              id="outlined-basic"
-              label="Date Expiration"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-            <TextField
-              inputProps={{ inputMode: "numeric" }}
-              id="outlined-basic"
-              label="Cvv"
-              variant="outlined"
-              sx={{ width: "50%" }}
-            />
-          </div>
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            <Typography>Payer avec:</Typography>
-          <RadioGroup
-          row
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
-      >
-        <FormControlLabel value="cib" control={<Radio />} label="CIB" />
-        <FormControlLabel value="eddahabia" control={<Radio />} label="Eddahabia" />
-      </RadioGroup>
-          </Box>
-          <div className="mt-2">
-            <Typography variant="h1" fontSize="18px" >Total: 4000 DZD</Typography>
-          </div>
-          <div className="flex items-center justify-end mt-4">
-            <Button variant="contained"> Confirmer</Button>
-          </div>
-        </form>
+    <Box width="80%" m="100px auto">
+      <Stepper activeStep={activeStep} sx={{ m: "20px 0" }}>
+        <Step>
+          <StepLabel>Saisir vos informations</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Paiement</StepLabel>
+        </Step>
+      </Stepper>
+      <Box>
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={initialValues}
+          validationSchema={checkoutSchema[activeStep]}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              {isFirstStep && (
+                <Shipping
+                  values={values}
+                  errors={errors}
+                  touched={touched}
+                  handleBlur={handleBlur}
+                  handleChange={handleChange}
+                  setFieldValue={setFieldValue}
+                />
+              )}
+              {isSecondStep && (
+                <Payment
+                  values={values}
+                  errors={errors}
+                  touched={touched}
+                  handleBlur={handleBlur}
+                  handleChange={handleChange}
+                  setFieldValue={setFieldValue}
+                />
+              )}
+              <Box display="flex" justifyContent="space-between" gap="50px">
+                {!isFirstStep && (
+                  <Button
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "blue",
+                      boxShadow: "none",
+                      color: "white",
+                      borderRadius: 0,
+                      padding: "15px 40px",
+                    }}
+                    onClick={() => setActiveStep(activeStep - 1)}
+                  >
+                    Back
+                  </Button>
+                )}
+                <Button
+                  fullWidth
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "blue",
+                    boxShadow: "none",
+                    color: "white",
+                    borderRadius: 0,
+                    padding: "15px 40px",
+                  }}
+                >
+                  {!isSecondStep ? "Next" : "Place Order"}
+                </Button>
+              </Box>
+            </form>
+          )}
+        </Formik>
       </Box>
-    </Container>
+    </Box>
   );
 };
 
+const initialValues = {
+  billingAddress: {
+    firstName: "",
+    lastName: "",
+    country: "",
+    street1: "",
+    street2: "",
+    city: "",
+    zipCode: "",
+  },
+  shippingAddress: {
+    isSameAddress: true,
+    firstName: "",
+    lastName: "",
+    country: "",
+    street1: "",
+    street2: "",
+    city: "",
+    zipCode: "",
+  },
+  email: "",
+  phoneNumber: "",
+};
+
+const checkoutSchema = [
+  yup.object().shape({
+    billingAddress: yup.object().shape({
+      firstName: yup.string().required("required"),
+      lastName: yup.string().required("required"),
+      country: yup.string().required("required"),
+      street1: yup.string().required("required"),
+      street2: yup.string(),
+      city: yup.string().required("required"),
+      zipCode: yup.string().required("required"),
+    }),
+    shippingAddress: yup.object().shape({
+      isSameAddress: yup.boolean(),
+      firstName: yup.string().when("isSameAddress", {
+        is: false,
+        then: yup.string().required("required"),
+      }),
+      lastName: yup.string().when("isSameAddress", {
+        is: false,
+        then: yup.string().required("required"),
+      }),
+      country: yup.string().when("isSameAddress", {
+        is: false,
+        then: yup.string().required("required"),
+      }),
+      street1: yup.string().when("isSameAddress", {
+        is: false,
+        then: yup.string().required("required"),
+      }),
+      street2: yup.string(),
+      city: yup.string().when("isSameAddress", {
+        is: false,
+        then: yup.string().required("required"),
+      }),
+      zipCode: yup.string().when("isSameAddress", {
+        is: false,
+        then: yup.string().required("required"),
+      }),
+    }),
+  }),
+  yup.object().shape({
+    email: yup.string().required("required"),
+    phoneNumber: yup.string().required("required"),
+  }),
+];
 export default Checkout;
