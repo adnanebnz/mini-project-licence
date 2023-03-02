@@ -26,7 +26,7 @@ export default function MapApp() {
         setCurrentPlaceId(id);
     };
 
-    const MAPBOX_TOKEN = "pk.eyJ1Ijoic2tpbGx6ZGV2IiwiYSI6ImNsZThrbmV0NjA3NjEzeW8zZTNoN3NremEifQ.J2OUiRda51tADGWwnH-cuw";
+    const MAPBOX_TOKEN = "pk.eyJ1Ijoic2tpbGx6ZGV2IiwiYSI6ImNsZThrbmV0NjA3NjEzeW8zZTNoN3NremEifQ.J2OUiRda51tADGWwnH-cuwadnane";
 
     return (
         <Map

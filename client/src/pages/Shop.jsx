@@ -5,10 +5,6 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import {
   Box,
   Typography,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Card,
   CardMedia,
   CardContent,
