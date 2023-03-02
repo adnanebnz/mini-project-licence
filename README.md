@@ -11,8 +11,7 @@ made by :
         width="200" 
         height="300"  /> </p>
 
-![frontend](https://res.cloudinary.com/dxobgdfyq/image/upload/v1675808631/mini_tz7k12.png)
-![backend](https://res.cloudinary.com/dxobgdfyq/image/upload/v1675810305/mini1_pktt85.png)
+![stack](https://upload.wikimedia.org/wikipedia/commons/9/94/MERN-logo.png)
 
 
 
