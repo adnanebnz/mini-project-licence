@@ -12,6 +12,8 @@ import { About } from "./pages/About";
 import Product from "./pages/Product";
 import ScrollToTop from "./Components/ScrollToTop";
 import CartMenu from "./Components/CartMenu";
+import Checkout from "./pages/Checkout";
+import Success from "./pages/Success";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/checkout/success",
+        element: <Success />,
       },
     ],
   },

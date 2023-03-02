@@ -44,9 +44,12 @@ const Product = () => {
           <div className='flex flex-col gap-2'>
             <Typography variant="h4" color="initial">{data.title}</Typography>
             <Box display="flex" alignItems="center" justifyContent="start">{Array(data.rating).fill(<StarIcon sx={{ color: "gold" }} />)} <Typography variant="h6" fontSize="16px">(10 reviews)</Typography></Box>
-            <Typography variant="h6">{data.price}</Typography>
+            <Box bgcolor="#FFEA28" padding="0.35rem" maxWidth="fit-content">
+                  <Typography variant="h4" fontSize="18px" sx={{fontWeight:500,color:"#343434"}}>{data.price} DZD</Typography>
+                  </Box>
             <Typography variant='body1'>{data.desc}</Typography>
-            <Box display="flex" alignItems="center" justifyContent="start" height="30px" width="100px" padding="10px">
+            <Box display ="flex" gap="20px" marginTop="20px">
+              <Box display="flex" alignItems="center" justifyContent="start" sx={{border:1,borderColor:"#343434"}}>
             <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
                 <RemoveIcon />
               </IconButton>
@@ -55,11 +58,12 @@ const Product = () => {
                 <AddIcon />
               </IconButton>
               </Box>
-            <div className='self-end mt-6'>
-              <Button variant="contained" onClick={() => {
+              <Box>
+              <Button variant="contained" size="large" onClick={() => {
                 dispatch(addToCart({ item: { ...data, count } }));
               }}>Ajouter au panier</Button>
-            </div>
+              </Box>
+              </Box>
           </div>
           <div>
           </div>

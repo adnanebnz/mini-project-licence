@@ -27,7 +27,7 @@ const CartMenu = () => {
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.price;
   }, 0);
-
+console.log(cart)
   return (
     <Box
       display={isCartOpen ? "block" : "none"}
@@ -51,7 +51,7 @@ const CartMenu = () => {
         <Box padding="30px" overflow="auto" height="100%">
           {/* HEADER */}
           <FlexBox mb="15px">
-            <Typography variant="h3" fontSize="28px">Votre Panier ({cart.length})</Typography>
+            <Typography variant="h2" fontSize="22px">Votre Panier ({cart.length})</Typography>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))}>
               <CloseIcon />
             </IconButton>
@@ -64,7 +64,7 @@ const CartMenu = () => {
                 <FlexBox p="15px 0">
                   <Box flex="1 1 40%">
                   <img
-                      alt={item?.name}
+                      alt={item?.title}
                       width="123px"
                       height="164px"
                       src={item.img}
@@ -72,8 +72,8 @@ const CartMenu = () => {
                   </Box>
                   <Box flex="1 1 60%">
                     <FlexBox mb="5px">
-                      <Typography fontWeight="bold">
-                        {item.name}
+                      <Typography fontWeight="bold" fontSize="16px">
+                        {item.title}
                       </Typography>
                       <IconButton
                         onClick={() =>
@@ -83,7 +83,7 @@ const CartMenu = () => {
                         <CloseIcon />
                       </IconButton>
                     </FlexBox>
-                    <Typography>{item.shortDescription}</Typography>
+                    <Typography fontSize="14px">{item.desc.substring(0, 50)}...</Typography>
                     <FlexBox m="15px 0">
                       <Box
                         display="flex"
@@ -123,6 +123,7 @@ const CartMenu = () => {
               <Typography fontWeight="bold">Total</Typography>
               <Typography fontWeight="bold">{totalPrice} DZD</Typography>
             </FlexBox>
+            <Box display="flex" justifyContent="center" alignItems="center">
             <Button
               sx={{
                 backgroundColor: "#2d55ff",
@@ -131,9 +132,11 @@ const CartMenu = () => {
                   },
                 color: "white",
                 borderRadius: 0,
-                minWidth: "100%",
-                padding: "20px 40px",
+                minWidth: "80%",
+                padding: "15px 30px",
                 m: "20px 0",
+                fontSize:"16px",
+               
               }}
               onClick={() => {
                 navigate("/checkout");
@@ -142,6 +145,7 @@ const CartMenu = () => {
             >
               Payer
             </Button>
+            </Box>
           </Box>
         </Box>
       </Box>

@@ -9,7 +9,7 @@ import { Badge, IconButton } from "@mui/material";
 import { ShoppingBagOutlined } from "@mui/icons-material";
 import { setIsCartOpen } from "../state";
 
-export default function Header() {
+const Header=()=> {
   const [navbarState, setNavbarState] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,28 +50,30 @@ export default function Header() {
           
         <Badge
             badgeContent={cart.length}
-            color="secondary"
+            color="error"
             invisible={cart.length === 0}
             sx={{
               "& .MuiBadge-badge": {
                 right: 5,
                 top: 5,
                 padding: "0 4px",
-                height: "14px",
-                minWidth: "13px",
+                height: "18px",
+                minWidth: "18px",
               },
             }}
           >
             <IconButton
+            className="cart"
+            
               onClick={() => dispatch(setIsCartOpen({}))}
-              sx={{ color: "black" }}
+              sx={{ color: "black"}}
             >
               <ShoppingBagOutlined />
             </IconButton>
           </Badge>
 
-          <button onClick={() => navigate("/login")}>Se connecter</button>
-          <button onClick={() => navigate("/register")}>Créer un compte</button>
+          <button className="button" onClick={() => navigate("/login")}>Se connecter</button>
+          <button className="button" onClick={() => navigate("/register")}>Créer un compte</button>
         </div>
       </Nav>
       <ResponsiveNav state={navbarState}>
@@ -159,7 +161,7 @@ const Nav = styled.nav`
       }
     }
   }
-  button {
+  .button {
     padding: 0.5rem 1rem;
     cursor: pointer;
     border-radius: 1rem;
@@ -187,8 +189,11 @@ const Nav = styled.nav`
     ul {
       display: none;
     }
-    button {
+    .button {
       display: none;
+    }
+    .cart{
+      display:none;
     }
   }
 `;
@@ -229,3 +234,4 @@ const ResponsiveNav = styled.div`
     }
   }
 `;
+export default Header;
