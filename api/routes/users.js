@@ -2,12 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {
-  verifyAdmin,
-  verifyOrg,
-  verifyToken,
-  verifyUser,
-} = require("../utils/verifyToken");
+const { verifyAdmin } = require("../utils/verifyToken");
 const createError = require("../utils/error");
 
 //Register a user
@@ -76,7 +71,6 @@ router.post("/logout", (req, res) => {
   res
     .clearCookie("access_token", {
       sameSite: "none",
-      secure: true,
     })
     .status(200)
     .send("User has been logged out.");
