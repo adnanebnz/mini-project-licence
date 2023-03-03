@@ -100,6 +100,12 @@ const Header=()=> {
             </Link>
           </li>
           <li>
+            <Link to="/checkout" onClick={() => setNavbarState(false)}>
+              Panier
+            </Link>
+
+          </li>
+          <li>
             <Link to="/login" onClick={() => setNavbarState(false)}>
               Se connecter
             </Link>
@@ -108,12 +114,6 @@ const Header=()=> {
             <Link to="/register" onClick={() => setNavbarState(false)}>
               Créer un Compte
             </Link>
-          </li>
-          <li>
-            <Link to="/cart" onClick={() => setNavbarState(false)}>
-              Panier
-            </Link>
-
           </li>
         </ul>
       </ResponsiveNav>

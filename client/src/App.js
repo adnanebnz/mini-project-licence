@@ -14,6 +14,8 @@ import ScrollToTop from "./Components/ScrollToTop";
 import CartMenu from "./Components/CartMenu";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
+import Error from "./pages/Error";
+import Cancel from "./pages/Cancel";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -66,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout/success",
         element: <Success />,
+      },
+      {
+        path: "/checkout/cancel",
+        element: <Cancel />,
       },
     ],
   },
