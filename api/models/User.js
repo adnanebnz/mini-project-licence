@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
     },
     firstName: {
       type: String,
-      require: true
+      require: true,
     },
     lastName: {
       type: String,
@@ -30,18 +30,20 @@ const UserSchema = new mongoose.Schema(
     },
     age: {
       type: Number,
-      require: true
+      require: true,
     },
     isAdmin: {
       type: Boolean,
+      default: false,
     },
     isOrg: {
-      type: Boolean
+      type: Boolean,
+      default: false,
     },
     isUser: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
     //TODO AGE autorisation paternelle
   },
   { timestamps: true }

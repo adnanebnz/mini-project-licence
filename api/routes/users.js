@@ -2,7 +2,13 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const createError = require('../utils/error');
+const {
+  verifyAdmin,
+  verifyOrg,
+  verifyToken,
+  verifyUser,
+} = require("../utils/verifyToken");
+const createError = require("../utils/error");
 
 //Register a user
 router.post("/register", async (req, res, next) => {
@@ -20,7 +26,7 @@ router.post("/register", async (req, res, next) => {
       email: req.body.email,
       password: hashedPassword,
       isAdmin: req.body.isAdmin,
-      isOrg: req.body.isOrg
+      isOrg: req.body.isOrg,
     });
 
     //save user send res
@@ -65,9 +71,19 @@ router.post("/login", async (req, res, next) => {
     next(err);
   }
 });
+//logout
+router.post("/logout", (req, res) => {
+  res
+    .clearCookie("access_token", {
+      sameSite: "none",
+      secure: true,
+    })
+    .status(200)
+    .send("User has been logged out.");
+});
 // get all users
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyAdmin, async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
@@ -76,15 +92,22 @@ router.get("/", async (req, res, next) => {
   }
 });
 //get a single user
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", verifyAdmin, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
   } catch (err) {
     next(err);
   }
-})
-
+});
 
 //delete user
+router.delete("/:id", verifyAdmin, async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("User " + user._id + " Deleted");
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

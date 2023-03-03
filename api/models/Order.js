@@ -4,10 +4,10 @@ const orderSchema = new mongoose.Schema(
   {
     orderItems: [
       {
-        slug: { type: String, required: true },
-        name: { type: String, required: true },
+        title: { type: String, required: true },
+        desc: { type: String, required: true },
         quantity: { type: Number, required: true },
-        image: { type: String, required: true },
+        img: { type: String, required: true },
         price: { type: Number, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema(
       country: { type: String, required: true },
       location: {
         lat: Number,
-        lng: Number,
+        long: Number,
         address: String,
         name: String,
         vicinity: String,

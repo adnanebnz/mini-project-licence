@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Item = require("../models/Item");
 const path = require("path");
 const multer = require("multer");
+const { verifyAdmin } = require("../utils/verifyToken");
 //MULTER CONFIG
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -15,26 +16,31 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //create an Item
-router.post("/", upload.array("images", 10), async (req, res, next) => {
-  const url = req.protocol + "://" + req.get("host");
-  const newItem = new Item({
-    title: req.body.title,
-    desc: req.body.desc,
-    img: url + "/Images/" + req.files[0].filename,
-    img2: url + "/Images/" + req.files[1].filename,
-    img3: url + "/Images/" + req.files[2].filename,
-    rating: req.body.rating,
-    price: req.body.price,
-    quantity: req.body.quantity,
-    categorie: req.body.categorie,
-  });
-  try {
-    const savedItem = await newItem.save();
-    res.status(200).json(savedItem);
-  } catch (err) {
-    next(err);
+router.post(
+  "/",
+  verifyAdmin,
+  upload.array("images", 10),
+  async (req, res, next) => {
+    const url = req.protocol + "://" + req.get("host");
+    const newItem = new Item({
+      title: req.body.title,
+      desc: req.body.desc,
+      img: url + "/Images/" + req.files[0].filename,
+      img2: url + "/Images/" + req.files[1].filename,
+      img3: url + "/Images/" + req.files[2].filename,
+      rating: req.body.rating,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      categorie: req.body.categorie,
+    });
+    try {
+      const savedItem = await newItem.save();
+      res.status(200).json(savedItem);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 //get all items
 
@@ -60,7 +66,7 @@ router.get("/:id", async (req, res, next) => {
 
 //UPDATE ITEM
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", verifyAdmin, async (req, res, next) => {
   try {
     const editedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -72,7 +78,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 //DELETE ITEM
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", verifyAdmin, async (req, res, next) => {
   try {
     await Item.findByIdAndDelete(req.params.id);
     res.status(200).json("Item deleted");
