@@ -11,13 +11,18 @@ import Contact from "./pages/Contact";
 import { About } from "./pages/About";
 import Product from "./pages/Product";
 import ScrollToTop from "./Components/ScrollToTop";
-
+import CartMenu from "./Components/CartMenu";
+import Checkout from "./pages/Checkout";
+import Success from "./pages/Success";
+import Error from "./pages/Error";
+import Cancel from "./pages/Cancel";
 const Layout = () => {
   return (
     <div className="m-4">
       <ScrollToTop />
       <Header />
       <Outlet />
+      <CartMenu />
       <Footer />
     </div>
   );
@@ -27,6 +32,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -55,6 +61,18 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/checkout/success",
+        element: <Success />,
+      },
+      {
+        path: "/checkout/cancel",
+        element: <Cancel />,
       },
     ],
   },

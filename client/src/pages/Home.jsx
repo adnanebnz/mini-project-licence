@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Hero from "./../Components/Hero";
+import Hero from "./../Components/Hero/Hero";
 import Recommend from "../Components/Recommend";
 import ScrollToTop from "../Components/ScrollToTop.jsx";
 import Services from "../Components/Services";

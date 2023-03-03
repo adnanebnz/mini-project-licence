@@ -4,9 +4,17 @@ import logoo from "../assets/logoo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import { Link, useNavigate } from "react-router-dom";
-export default function Header() {
+import { useDispatch, useSelector } from "react-redux";
+import { Badge, IconButton } from "@mui/material";
+import { ShoppingBagOutlined } from "@mui/icons-material";
+import { setIsCartOpen } from "../state";
+
+const Header=()=> {
   const [navbarState, setNavbarState] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
+
   return (
     <>
       <Nav>
@@ -39,8 +47,34 @@ export default function Header() {
           </li>
         </ul>
         <div className="flex gap-4">
-          <button onClick={() => navigate("/login")}>Se connecter</button>
-          <button onClick={() => navigate("/register")}>Créer un compte</button>
+          
+        <Badge
+        className="badge"
+            badgeContent={cart.length}
+            color="error"
+            invisible={cart.length === 0}
+            sx={{
+              "& .MuiBadge-badge": {
+                right: 5,
+                top: 5,
+                padding: "0 4px",
+                height: "18px",
+                minWidth: "18px",
+              },
+            }}
+          >
+            <IconButton
+            className="cart"
+            
+              onClick={() => dispatch(setIsCartOpen({}))}
+              sx={{ color: "black"}}
+            >
+              <ShoppingBagOutlined />
+            </IconButton>
+          </Badge>
+
+          <button className="button" onClick={() => navigate("/login")}>Se connecter</button>
+          <button className="button" onClick={() => navigate("/register")}>Créer un compte</button>
         </div>
       </Nav>
       <ResponsiveNav state={navbarState}>
@@ -64,6 +98,12 @@ export default function Header() {
             <Link to="/contact" onClick={() => setNavbarState(false)}>
               Contact
             </Link>
+          </li>
+          <li>
+            <Link to="/checkout" onClick={() => setNavbarState(false)}>
+              Panier
+            </Link>
+
           </li>
           <li>
             <Link to="/login" onClick={() => setNavbarState(false)}>
@@ -122,7 +162,7 @@ const Nav = styled.nav`
       }
     }
   }
-  button {
+  .button {
     padding: 0.5rem 1rem;
     cursor: pointer;
     border-radius: 1rem;
@@ -150,8 +190,14 @@ const Nav = styled.nav`
     ul {
       display: none;
     }
-    button {
+    .button {
       display: none;
+    }
+    .badge{
+      display:none;
+    }
+    .cart{
+      display:none;
     }
   }
 `;
@@ -162,7 +208,7 @@ const ResponsiveNav = styled.div`
   z-index: 1;
   top: ${({ state }) => (state ? "90px" : "-400px")};
   background-color: white;
-  height: 40vh;
+  height: 50vh;
   width: 100%;
   align-items: center;
   transition: 0.3s ease-in-out;
@@ -192,3 +238,4 @@ const ResponsiveNav = styled.div`
     }
   }
 `;
+export default Header;

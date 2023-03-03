@@ -1,25 +1,29 @@
 import axios from "axios"
 import { useState, useEffect } from "react";
-import StarIcon from "@mui/icons-material/Star";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import {
   Box,
   Typography,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Card,
   CardMedia,
   CardContent,
   CardActions,
   Button,
+  IconButton,
+  CardActionArea,
+  Stack,
+  Chip
 } from "@mui/material";
 import {useNavigate} from "react-router-dom"
-
+import { useDispatch } from "react-redux";
+import { addToCart } from '../state';
 
 const Shop = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
+  const [count, setCount] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,12 +41,21 @@ const Shop = () => {
       <Typography
         variant="h1"
         fontSize="26px"
-        fontWeight="600"
+        fontWeight="400"
         textAlign="center"
-        marginBottom="70px"
+        
       >
-        Nos Produits
+        NOS PRODUITS
       </Typography>
+      <Box display="flex" alignItems="center" justifyContent="center" sx={{marginBottom:"50px",marginTop:"40px"}}>
+      <Stack direction="row" spacing={1}>
+      <Chip label="Tables" variant="outlined" />
+      <Chip label="Chaises" variant="outlined" />
+      <Chip label="Tantes" variant="outlined" />
+      <Chip label="Vetements" variant="outlined" />
+      <Chip label="Boots" variant="outlined" />
+    </Stack>
+    </Box>
       <Box
         display="flex"
         padding="0px 15px"
@@ -53,67 +66,66 @@ const Shop = () => {
           },
           justifyContent: "space-between",
           gap:{
-            sm:"9rem",
+            sm:"4rem",
             xs:"1rem"
         }}}
       >
         <div style={{ flex: "1" }} className="mb-10">
-          <div className="border border-solid bg-gray-200 p-3">
-            <Typography fontWeight="600">Toutes Les Catégories</Typography>
+          <div className="border border-solid border-[#343434] p-3 w-full">
+            <Typography fontWeight="400" textAlign="center">FILTRER</Typography>
             <div className="flex items-center justify-content-center">
-              <FormControl variant="standard" sx={{
-                m: 1, minWidth: {
-                  sm: 250,
-                  xs: 270,
-                },
-              }}>
-                <InputLabel id="demo-simple-select-standard-label">
-                  Catégories
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  label="Catégories"
-                >
-                  <MenuItem value="">
-                    <em>Null</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tante</MenuItem>
-                  <MenuItem value={20}>Tshirt</MenuItem>
-                  <MenuItem value={30}>Utilities</MenuItem>
-                </Select>
-              </FormControl>
+           
+              
             </div>
           </div>
 
         </div>
         {/* ITEMS */}
         <div
-          className="flex flex-wrap gap-3"
+          className="flex flex-wrap gap-9"
           style={{ flex: 7 }}
         >
           {items.map((item) => (
             <div key={item._id}>
-              <Card sx={{ maxWidth: 300 }} raised>
+              <Card sx={{ maxWidth:"300px",cursor:"pointer"}} raised>
+                <CardActionArea onClick={()=>navigate(`${item._id}`)}>
                 <CardMedia
                   component="img"
                   height="140"
+                  sx={{maxHeight:"200px"}}
                   image={item.img}
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom fonSize="18px" variant="h6" component="div">
                     {item.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {item.desc}
+                    {item.desc.substring(0, 80)}...
                   </Typography>
-                  <Box display="flex" justifyContent="center" alignItems="center" marginTop="10px">
-                    {Array(item.rating).fill(<StarIcon sx={{ color: "gold" }} />)}
+                  <Box display="flex" justifyContent="center" alignItems="center" marginTop="10px" gap="0.5rem">
+                    <Box bgcolor="#FFEA28" padding="0.35rem">
+                  <Typography variant="h4" fontSize="18px" sx={{fontWeight:500,color:"#343434"}}>{item.price} DZD</Typography>
+                  </Box>
                   </Box>
                 </CardContent>
+                </CardActionArea>
                 <CardActions>
-                  <Button size="small">{item.price}</Button>
-                  <Button size="small" onClick={()=>{navigate(`${item._id}`)}}>Voir plus</Button>
+                  <Box display="flex" alignItems="center" justifyContent="center" gap="20px">
+                    <Box  display="flex" alignItems="center" sx={{border:1,borderColor:"#343434"}}>
+                  <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
+                <RemoveIcon />
+              </IconButton>
+              <Typography color="black">{count}</Typography>
+              <IconButton onClick={() => setCount(count + 1)}>
+                <AddIcon />
+              </IconButton>
+              </Box>
+              <Box>
+                  <Button size="small" variant="contained" sx={{height:"45px"}} onClick={() => {
+                dispatch(addToCart({ item: { ...item, count } }));
+              }}>Ajouter au panier</Button>
+                  </Box>
+                  </Box>
                 </CardActions>
               </Card>
             </div>

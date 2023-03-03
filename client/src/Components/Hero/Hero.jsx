@@ -1,9 +1,8 @@
 import React from 'react';
 import "./hero.css"
-import hero from "../assets/test.jpg"
+import hero from "../../assets/test.jpg"
 import Typewriter from "typewriter-effect"
 import { useNavigate } from 'react-router-dom';
-import MapApp from './Map/MapApp';
 const Hero = () => {
   const navigate = useNavigate();
   return (

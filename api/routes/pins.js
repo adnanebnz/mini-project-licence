@@ -2,23 +2,23 @@ const router = require("express").Router();
 const Pin = require("../models/Pin");
 const multer = require("multer");
 const path = require("path");
+const { verifyAdmin, verifyOrg } = require("../utils/verifyToken");
 
 //MULTER CONFIG
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'Images')
+    cb(null, "Images");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
-})
+  },
+});
 
-const upload = multer({ storage: storage })
-
+const upload = multer({ storage: storage });
 
 //create a pin
-router.post("/", upload.single("image"), async (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host')
+router.post("/", verifyOrg, upload.single("image"), async (req, res, next) => {
+  const url = req.protocol + "://" + req.get("host");
   const newPin = new Pin({
     username: req.body.username,
     title: req.body.title,
@@ -30,13 +30,13 @@ router.post("/", upload.single("image"), async (req, res, next) => {
     places: req.body.places,
     duration: req.body.duration,
     price: req.body.price,
-    img: url + '/Images/' + req.file.filename
+    img: url + "/Images/" + req.file.filename,
   });
   try {
     const savedPin = await newPin.save();
     res.status(200).json(savedPin);
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
@@ -58,15 +58,15 @@ router.get("/:id", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-})
+});
 
 //DELETE A PIN
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", verifyOrg, async (req, res, next) => {
   try {
-    const deletePin = await Pin.findByIdAndDelete(req.params.id);
+    await Pin.findByIdAndDelete(req.params.id);
     res.status(200).json("pin deleted");
   } catch (err) {
     next(err);
   }
-})
+});
 module.exports = router;
