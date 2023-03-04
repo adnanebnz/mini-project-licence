@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/rando/:id",
+        path: "/randos/:id",
         element: <Single />,
       },
       {

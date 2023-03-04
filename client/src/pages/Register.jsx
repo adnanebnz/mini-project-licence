@@ -10,6 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import {useNavigate} from "react-router-dom"
 
 function Copyright(props) {
   return (
@@ -20,8 +22,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        DZHIKERS
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -30,17 +32,22 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-
 export default function Register() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const values={
+      firstName:data.get("firstName"),
+      lastName: data.get("lastName"),
+      username:data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
-    });
+    }
+  console.log(values)
+    await axios.post("http://localhost:8800/api/users/register",values);
+    navigate("/")
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -57,7 +64,7 @@ export default function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register
+            Créer un compte
           </Typography>
           <Box
             component="form"
@@ -69,8 +76,38 @@ export default function Register() {
               margin="normal"
               required
               fullWidth
+              id="lastName"
+              label="Nom"
+              name="lastName"
+              autoComplete="lasttName"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="firstName"
+              label="Prenom"
+              name="firstName"
+              autoComplete="firstName"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Nom d'utulisateur"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -80,7 +117,7 @@ export default function Register() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Mot de passe"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -92,12 +129,12 @@ export default function Register() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Register
+              Créer votre compte
             </Button>
             <Grid container>
               <Grid item>
                 <Link href="http://localhost:3000/login" variant="body2">
-                  {"Already have an account? Login"}
+                  {"Vous avez déja un compte? Connectez-vous"}
                 </Link>
               </Grid>
             </Grid>

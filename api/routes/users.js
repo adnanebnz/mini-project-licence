@@ -2,24 +2,39 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { verifyAdmin } = require("../utils/verifyToken");
 const createError = require("../utils/error");
+const path = require("path");
+const multer = require("multer");
+
+//MULTER CONFIG
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "Images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 //Register a user
-router.post("/register", async (req, res, next) => {
+router.post("/register", upload.single("image"), async (req, res, next) => {
   try {
     //generate a new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     //create new user
-
+    const url = req.protocol + "://" + req.get("host");
     const newUser = new User({
       username: req.body.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
+      age: req.body.age,
+      img: url + "/Images/" + req.file.filename,
       isAdmin: req.body.isAdmin,
       isOrg: req.body.isOrg,
     });
@@ -42,7 +57,7 @@ router.post("/login", async (req, res, next) => {
     });
     !user && next(createError(400, "User does not exists!"));
     //validate password
-    const isPasswordCorrect = await bcrypt.compare(
+    const isPasswordCorrect = bcrypt.compareSync(
       req.body.password,
       user.password
     );
@@ -71,13 +86,14 @@ router.post("/logout", (req, res) => {
   res
     .clearCookie("access_token", {
       sameSite: "none",
+      secure: true,
     })
     .status(200)
     .send("User has been logged out.");
 });
 // get all users
 
-router.get("/", verifyAdmin, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
@@ -86,7 +102,7 @@ router.get("/", verifyAdmin, async (req, res, next) => {
   }
 });
 //get a single user
-router.get("/:id", verifyAdmin, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
@@ -96,12 +112,21 @@ router.get("/:id", verifyAdmin, async (req, res, next) => {
 });
 
 //delete user
-router.delete("/:id", verifyAdmin, async (req, res, next) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("User " + user._id + " Deleted");
-  } catch (error) {
-    next(error);
+router.delete("/:id", async (req, res, next) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    res.status(401).json("you cant you dont have the auth");
   }
+  jwt.verify(token, process.env.JWT, async (err, payload) => {
+    if (payload.isAdmin == false) {
+      res.status(401).json("You're not an admin");
+    } else if (payload.isAdmin) {
+      await User.findByIdAndDelete(req.params.id);
+      res.status(200).json("user deleted");
+    }
+    if (err) {
+      res.status(404).json(err);
+    }
+  });
 });
 module.exports = router;

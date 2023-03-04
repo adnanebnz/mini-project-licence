@@ -83,7 +83,7 @@ const totalPrice = cart.reduce((total, item) => {
             xs:"center",
             sm:"end"
           }}} padding="30px">
-          <Button variant="contained" onClick={makePayment}>PAYER</Button>
+          <Button variant="contained" size="large" onClick={makePayment}>PAYER</Button>
           </Box>
         </Box>
         </Container>

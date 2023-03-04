@@ -10,6 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -20,8 +22,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        DZHIKERS
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -32,13 +34,22 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const values={
       email: data.get("email"),
       password: data.get("password"),
-    });
+    }
+    try {
+      const res = await axios.post("http://localhost:8800/api/users/login",values,{withCredentials:true});
+      localStorage.setItem("currentUser",JSON.stringify(res.data))
+    navigate("/");
+    } catch (err) {
+console.log(err)
+}
+    
   };
 
   return (
@@ -57,7 +68,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Se connecter
           </Typography>
           <Box
             component="form"
@@ -70,7 +81,7 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Emai"
               name="email"
               autoComplete="email"
               autoFocus
@@ -80,7 +91,7 @@ export default function Login() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Mot de passe"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -92,7 +103,7 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Login
+              Se Connecter
             </Button>
             <Grid container>
               <Grid item xs>
@@ -102,7 +113,7 @@ export default function Login() {
               </Grid>
               <Grid item>
                 <Link href="http://localhost:3000/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Vous n'avez pas de compte? Créez un"}
                 </Link>
               </Grid>
             </Grid>
