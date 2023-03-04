@@ -22,8 +22,8 @@ const upload = multer({ storage: storage });
 router.post("/register", upload.single("image"), async (req, res, next) => {
   try {
     //generate a new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
     //create new user
     const url = req.protocol + "://" + req.get("host");
