@@ -1,159 +1,140 @@
-import styled from "styled-components";
-import Destination4 from "../assets/Destination4.png";
-import Destination5 from "../assets/Destination5.png";
-import Destination6 from "../assets/Destination6.png";
-import jijel from "../assets/jijel.jpg";
-import annaba from "../assets/annaba.jpg";
-import phare from "../assets/phare.jpg";
+import axios from "axios"
+import { useState, useEffect } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import {
+  Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Button,
+  IconButton,
+  CardActionArea,
+  Stack,
+  Chip
+} from "@mui/material";
+import {useNavigate} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { addToCart } from '../state';
 
-import info1 from "../assets/info1.png";
-import info2 from "../assets/info2.png";
-import info3 from "../assets/info3.png";
-import { Typography } from "@mui/material";
+const Randos = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [count, setCount] = useState(1);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8800/api/pins`);
+        setItems(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
 
-export default function Randos() {
-  const data = [
-    {
-      image: jijel,
-      title: "Jijel",
-      subTitle: "Magnifique plage bla bla bla",
-      cost: "1200 DZD",
-      duration: "1 jour",
-    },
-    {
-      image: phare,
-      title: "Le phare Mostaganem",
-      subTitle: "blablablabla",
-      cost: "2000 DZD",
-      duration: "2 jours",
-    },
-    {
-      image: annaba,
-      title: "Annaba",
-      subTitle: "Annaba plage bla bla bla",
-      cost: "3000 DZD",
-      duration: "3 jours",
-    },
-    {
-      image: Destination4,
-      title: "New Zealand",
-      subTitle: "New Zealand is an island country in the",
-      cost: "24100 DZD",
-      duration: "5 jours",
-    },
-    {
-      image: Destination5,
-      title: "Bora Bora",
-      subTitle: "Bora Bora is a small South Pacific island northwest of",
-      cost: "954000 DZD",
-      duration: "10 jours",
-    },
-    {
-      image: Destination6,
-      title: "London",
-      subTitle: "London, the capital of England and the United",
-      cost: "38800 DZD",
-      duration: "3 jours",
-    },
-  ];
+  },[])
+  console.log(items)
   return (
-    <Section id="recommend">
-      <div className="title">
-        <Typography variant="h2" fontSize="22px" fontWeight="600" marginTop="2.5rem">
-          Randonnées Disponibles
-        </Typography>
-      </div>
-      <div className="destinations mt-16">
-        {data.map((destination) => {
-          return (
-            <div className="destination">
-              <img src={destination.image} alt="" />
-              <h3>{destination.title}</h3>
-              <p>{destination.subTitle}</p>
-              <div className="info">
-                <div className="services">
-                  <img src={info1} alt="" />
-                  <img src={info2} alt="" />
-                  <img src={info3} alt="" />
-                </div>
-                <h4>{destination.cost}</h4>
-              </div>
-              <div className="distance">
-                <span>10 KM</span>
-                <span>{destination.duration}</span>
-              </div>
+    <div className="mt-11 mb-10">
+      <Typography
+        variant="h1"
+        fontSize="26px"
+        fontWeight="400"
+        textAlign="center"
+        
+      >
+        RANDONEES DISPONIBLES
+      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="center" sx={{marginBottom:"50px",marginTop:"40px"}}>
+      <Stack direction="row" spacing={1}>
+      <Chip label="Tables" variant="outlined" />
+      <Chip label="Chaises" variant="outlined" />
+      <Chip label="Tantes" variant="outlined" />
+      <Chip label="Vetements" variant="outlined" />
+      <Chip label="Boots" variant="outlined" />
+    </Stack>
+    </Box>
+      <Box
+        display="flex"
+        padding="0px 15px"
+        sx={{
+          flexDirection: {
+            sm: "row",
+            xs: "column",
+          },
+          justifyContent: "space-between",
+          gap:{
+            sm:"4rem",
+            xs:"1rem"
+        }}}
+      >
+        <div style={{ flex: "1" }} className="mb-10">
+          <div className="border border-solid border-[#343434] p-3 w-full">
+            <Typography fontWeight="400" textAlign="center">FILTRER</Typography>
+            <div className="flex items-center justify-content-center">
+           
+              
             </div>
-          );
-        })}
-      </div>
-    </Section>
-  );
-}
+          </div>
 
-const Section = styled.section`
-  padding: 2rem 0;
-  .title {
-    text-align: center;
-  }
-  .destinations {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-    padding: 0 3rem;
-    .destination {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      background-color: #8338ec14;
-      border-radius: 1rem;
-      transition: 0.3s ease-in-out;
-      &:hover {
-        transform: translateX(0.1rem) translateY(-1rem);
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-      }
-      img {
-        width: 100%;
-      }
-      .info {
-        display: flex;
-        align-items: center;
-        .services {
-          display: flex;
-          gap: 0.3rem;
-          img {
-            border-radius: 1rem;
-            background-color: #4d2ddb84;
-            width: 2rem;
-            /* padding: 1rem; */
-            padding: 0.3rem 0.4rem;
-          }
-        }
-        display: flex;
-        justify-content: space-between;
-      }
-      .distance {
-        display: flex;
-        justify-content: space-between;
-      }
-    }
-  }
-  @media screen and (min-width: 280px) and (max-width: 768px) {
-    .packages {
-      ul {
-        li {
-          padding: 0 0.5rem;
-          font-size: 2vh;
-          padding-bottom: 1rem;
-        }
-        .active {
-          border-bottom-width: 0.3rem;
-        }
-      }
-    }
-    .destinations {
-      grid-template-columns: 1fr;
-      padding: 0;
-    }
-  }
-`;
+        </div>
+        {/* ITEMS */}
+        <div
+          className="flex flex-wrap gap-9"
+          style={{ flex: 7 }}
+        >
+          {items.map((item) => (
+            <div key={item._id}>
+              <Card sx={{ maxWidth:"300px",cursor:"pointer"}} raised>
+                <CardActionArea onClick={()=>navigate(`${item._id}`)}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  sx={{maxHeight:"200px"}}
+                  image={item.img}
+                />
+                <CardContent>
+                  <Typography gutterBottom fonSize="18px" variant="h6" component="div">
+                    {item.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.desc.substring(0, 80)}...
+                  </Typography>
+                  <Box display="flex" justifyContent="center" alignItems="center" marginTop="10px" gap="0.5rem">
+                    <Box bgcolor="#FFEA28" padding="0.35rem">
+                  <Typography variant="h4" fontSize="18px" sx={{fontWeight:500,color:"#343434"}}>{item.price} DZD</Typography>
+                  </Box>
+                  </Box>
+                </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Box display="flex" alignItems="center" justifyContent="center" gap="20px">
+                    <Box  display="flex" alignItems="center" sx={{border:1,borderColor:"#343434"}}>
+                  <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
+                <RemoveIcon />
+              </IconButton>
+              <Typography color="black">{count}</Typography>
+              <IconButton onClick={() => setCount(count + 1)}>
+                <AddIcon />
+              </IconButton>
+              </Box>
+              <Box>
+                  <Button size="small" variant="contained" sx={{height:"45px"}} onClick={() => {
+                dispatch(addToCart({ item: { ...item, count } }));
+              }}>Ajouter au panier</Button>
+                  </Box>
+                  </Box>
+                </CardActions>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </Box >
+    </div >
+  );
+};
+
+export default Randos;

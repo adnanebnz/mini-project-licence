@@ -10,7 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import axios from "axios";
+import {useNavigate} from "react-router-dom"
+import { useState } from "react";
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 function Copyright(props) {
   return (
     <Typography
@@ -20,8 +24,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        DZHIKERS
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -29,25 +33,46 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
-
+const theme = createTheme();  
 export default function Register() {
-  const handleSubmit = (event) => {
+  const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+    };
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState(undefined);
+  const [error,setError]= useState(undefined);
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0])
+  }
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const values={
+      firstName:data.get("firstName"),
+      lastName: data.get("lastName"),
+      username:data.get("username"),
       email: data.get("email"),
+      image:selectedFile,
+      age:data.get("age"),
       password: data.get("password"),
-    });
+    }
+    try {
+      await axios.post("http://localhost:8800/api/users/register",values,{headers:{'Content-Type':'multipart/form-data'}},{withCredentials:true});
+      navigate("/")
+    } catch (err) {
+      setError(err.response.data.message);
+}
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -57,7 +82,7 @@ export default function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register
+            Créer un compte
           </Typography>
           <Box
             component="form"
@@ -65,39 +90,104 @@ export default function Register() {
             noValidate
             sx={{ mt: 1 }}
           >
+            <Box display="flex" gap ="10px">
+            <TextField
+              margin="normal"
+              required
+              id="lastName"
+              label="Nom"
+              name="lastName"
+              autoComplete="lasttName"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              id="firstName"
+              label="Prenom"
+              name="firstName"
+              autoComplete="firstName"
+              autoFocus
+            />
+            </Box>
+            <Box display="flex" gap ="10px">
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Nom d'utulisateur"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+              id="age"
+              label="Votre age"
+              name="age"
+              autoComplete="age"
+              autoFocus
             />
-
+            </Box>
+            <TextField
+              margin="normal"
+              type="file"
+              required
+              fullWidth
+              id="image"
+              name="image"
+              autoFocus
+              onChange={handleFileSelect}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <FormControl variant="outlined" fullWidth sx={{marginTop:"10px"}}>
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+          fullWidth 
+            name="password"
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+              {error && <Typography sx={{color:"red"}}>{error}</Typography>}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Register
+              Créer votre compte
             </Button>
             <Grid container>
               <Grid item>
                 <Link href="http://localhost:3000/login" variant="body2">
-                  {"Already have an account? Login"}
+                  {"Vous avez déja un compte? Connectez-vous"}
                 </Link>
               </Grid>
             </Grid>

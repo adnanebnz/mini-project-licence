@@ -10,7 +10,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import { FormControl, IconButton } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 function Copyright(props) {
   return (
     <Typography
@@ -20,8 +29,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        DZHIKERS
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -32,13 +41,27 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+   const [error, setError] = useState(null);
+  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+      const email= data.get("email");
+      const password =data.get("password");
+    try {
+      const res = await axios.post("http://localhost:8800/api/users/login",{email,password},{withCredentials:true});
+      localStorage.setItem("currentUser",JSON.stringify(res.data))
+    navigate("/");
+    
+    } catch (err) {
+      setError(err.response.data.message)
+}
   };
 
   return (
@@ -57,7 +80,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Se connecter
           </Typography>
           <Box
             component="form"
@@ -70,30 +93,46 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
+        <FormControl variant="outlined" fullWidth sx={{marginTop:"15px"}}>
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+          fullWidth 
+            name="password"
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
 
+            <Box>
+            {error && <Typography textAlign="center"  sx={{color:"red"}}>{error}</Typography>}
+            </Box>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Login
+              Se Connecter
             </Button>
+            
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -102,7 +141,7 @@ export default function Login() {
               </Grid>
               <Grid item>
                 <Link href="http://localhost:3000/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Vous n'avez pas de compte? Créez un"}
                 </Link>
               </Grid>
             </Grid>

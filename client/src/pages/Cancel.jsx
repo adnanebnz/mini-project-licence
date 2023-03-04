@@ -5,11 +5,13 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
+import { Typography } from '@mui/material';
 const Cancel = () => {
   const [open, setOpen] = useState(true);
   return (
     <div style={{marginTop:"100px",marginBottom:"30px"}}>
       <Box>
+        <Typography variant='h1' fontWeight='600' fontSize="36px" textAlign="center" marginBottom="25px">Votre commande a ete annulée</Typography>
       <Collapse in={open}>
         <Alert
         variant='filled'

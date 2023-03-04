@@ -43,7 +43,7 @@ const PinSchema = new mongoose.Schema(
       default: 1,
     },
     price: {
-      type: String,
+      type: Number,
       require: true,
     },
     img: {
