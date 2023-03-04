@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Avatar, Badge, IconButton, Typography } from "@mui/material";
+import { Avatar, Badge, IconButton, Typography,Box } from "@mui/material";
 import { ShoppingBagOutlined } from "@mui/icons-material";
 import { setIsCartOpen } from "../state";
 import Menu from '@mui/material/Menu';
@@ -82,7 +82,6 @@ navigate("/");
           >
             <IconButton
             className="cart"
-            
               onClick={() => dispatch(setIsCartOpen({}))}
               sx={{ color: "black"}}
             >
@@ -91,16 +90,18 @@ navigate("/");
           </Badge>
           {currentUser&&
           <>
+          <Box sx={{display:"flex",alignItems:"center"}}>
           <IconButton
-          sx={{display:"flex",gap:"10px"}}
+         
            id="basic-button"
            aria-controls={open ? 'basic-menu' : undefined}
            aria-haspopup="true"
            aria-expanded={open ? 'true' : undefined}
            onClick={handleBtn}>
-          <Avatar alt="" src={currentUser.details.img ||"../assets/noavatar.png"} />
-          <Typography variant="h6" fontWeight="600" fontSize="16px" sx={{color:"black"}}>{currentUser.details.username}</Typography>
+          <Avatar alt="" src={currentUser.details.img ||"../assets/noavatar.png"} sx={{ width: 40, height: 40 }} />
           </IconButton> 
+          <Typography variant="h6" fontWeight="600" fontSize="16px" sx={{color:"black"}}>{currentUser.details.username}</Typography>
+          </Box>
           <Menu
         id="basic-menu"
         anchorEl={anchorEl}

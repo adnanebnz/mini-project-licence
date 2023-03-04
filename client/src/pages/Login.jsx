@@ -10,9 +10,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import { FormControl, IconButton } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 function Copyright(props) {
   return (
     <Typography
@@ -34,22 +41,27 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+   const [error, setError] = useState(null);
   const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const values={
-      email: data.get("email"),
-      password: data.get("password"),
-    }
+
+      const email= data.get("email");
+      const password =data.get("password");
     try {
-      const res = await axios.post("http://localhost:8800/api/users/login",values,{withCredentials:true});
+      const res = await axios.post("http://localhost:8800/api/users/login",{email,password},{withCredentials:true});
       localStorage.setItem("currentUser",JSON.stringify(res.data))
     navigate("/");
-    } catch (err) {
-console.log(err)
-}
     
+    } catch (err) {
+      setError(err.response.data.message)
+}
   };
 
   return (
@@ -81,22 +93,37 @@ console.log(err)
               required
               fullWidth
               id="email"
-              label="Emai"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Mot de passe"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
+        <FormControl variant="outlined" fullWidth sx={{marginTop:"15px"}}>
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+          fullWidth 
+            name="password"
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
 
+            <Box>
+            {error && <Typography textAlign="center"  sx={{color:"red"}}>{error}</Typography>}
+            </Box>
             <Button
               type="submit"
               fullWidth
@@ -105,6 +132,7 @@ console.log(err)
             >
               Se Connecter
             </Button>
+            
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
