@@ -16,6 +16,7 @@ import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import Error from "./pages/Error";
 import Cancel from "./pages/Cancel";
+import Profile from "./pages/Profile";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/boutique/:id",
         element: <Product />,
+      },
+      {
+        path: "/profile/:id",
+        element: <Profile />,
       },
       {
         path: "/about",

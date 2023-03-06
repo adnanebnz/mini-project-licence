@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const createError = require("../utils/error");
 const path = require("path");
 const multer = require("multer");
+const { verifyAdmin, verifyUser } = require("../utils/verifyToken");
 
 //MULTER CONFIG
 const storage = multer.diskStorage({
@@ -19,6 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //Register a user
+
 router.post("/register", upload.single("image"), async (req, res, next) => {
   try {
     //generate a new password
@@ -81,7 +83,9 @@ router.post("/login", async (req, res, next) => {
     next(err);
   }
 });
+
 //logout
+
 router.post("/logout", (req, res) => {
   res
     .clearCookie("access_token", {
@@ -91,9 +95,10 @@ router.post("/logout", (req, res) => {
     .status(200)
     .send("User has been logged out.");
 });
+
 // get all users
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyAdmin, async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
@@ -101,8 +106,10 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
 //get a single user
-router.get("/:id", async (req, res, next) => {
+
+router.get("/:id", verifyUser, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
@@ -112,6 +119,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //delete user
+
 router.delete("/:id", async (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) {
@@ -129,4 +137,5 @@ router.delete("/:id", async (req, res, next) => {
     }
   });
 });
+
 module.exports = router;

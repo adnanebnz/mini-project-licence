@@ -5,14 +5,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Avatar, Badge, IconButton, Typography,Box } from "@mui/material";
+import { Avatar, Badge, IconButton, Typography, Box } from "@mui/material";
 import { ShoppingBagOutlined } from "@mui/icons-material";
 import { setIsCartOpen } from "../state";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import axios from "axios"
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import axios from "axios";
 
-const Header=()=> {
+const Header = () => {
   const [navbarState, setNavbarState] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,11 +25,19 @@ const Header=()=> {
   const handleClose = () => {
     setAnchorEl(null);
   };
-const handleDisconnect = async()=>{
-await axios.post("http://localhost:8800/api/users/logout");
-localStorage.setItem("currentUser", null);
-navigate("/");
-}
+  const handleProfile = () => {
+    navigate(`/profile/${currentUser.details._id}`);
+    setAnchorEl(null);
+  };
+  const handleDisconnect = async (event) => {
+    event.preventDefault();
+    await axios.post("http://localhost:8800/api/users/logout", "", {
+      withCredentials: true,
+    });
+    //TODO SAFAK CREATE NEWREQUEST MODEL FIVERRFULLSTACK
+    localStorage.setItem("currentUser", null);
+    navigate("/");
+  };
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   return (
@@ -64,9 +72,8 @@ navigate("/");
           </li>
         </ul>
         <div className="flex gap-4">
-          
-        <Badge
-        className="badge"
+          <Badge
+            className="badge"
             badgeContent={cart.length}
             color="error"
             invisible={cart.length === 0}
@@ -81,48 +88,65 @@ navigate("/");
             }}
           >
             <IconButton
-            className="cart"
+              className="cart"
               onClick={() => dispatch(setIsCartOpen({}))}
-              sx={{ color: "black"}}
+              sx={{ color: "black" }}
             >
               <ShoppingBagOutlined />
             </IconButton>
           </Badge>
-          {currentUser&&
-          <>
-          <Box sx={{display:"flex",alignItems:"center"}}>
-          <IconButton
-         
-           id="basic-button"
-           aria-controls={open ? 'basic-menu' : undefined}
-           aria-haspopup="true"
-           aria-expanded={open ? 'true' : undefined}
-           onClick={handleBtn}>
-          <Avatar alt="" src={currentUser.details.img ||"../assets/noavatar.png"} sx={{ width: 40, height: 40 }} />
-          </IconButton> 
-          <Typography variant="h6" fontWeight="600" fontSize="16px" sx={{color:"black"}}>{currentUser.details.username}</Typography>
-          </Box>
-          <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Mes achats et réservations</MenuItem>
-        <MenuItem onClick={handleDisconnect}>Se deconnecter</MenuItem>
-      </Menu>
-    </>
-    }
-          {!currentUser &&
-          <>
-          <button className="button" onClick={() => navigate("/login")}>Se connecter</button>
-          <button className="button" onClick={() => navigate("/register")}>Créer un compte</button>
-          </>
-          } 
+          {currentUser && (
+            <>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleBtn}
+                >
+                  <Avatar
+                    alt=""
+                    src={currentUser.details.img || "../assets/noavatar.png"}
+                    sx={{ width: 40, height: 40 }}
+                  />
+                </IconButton>
+                <Typography
+                  variant="h6"
+                  fontWeight="600"
+                  fontSize="16px"
+                  sx={{ color: "black" }}
+                >
+                  {currentUser.details.username}
+                </Typography>
+              </Box>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  Mes achats et réservations
+                </MenuItem>
+                <MenuItem onClick={handleDisconnect}>Se deconnecter</MenuItem>
+              </Menu>
+            </>
+          )}
+          {!currentUser && (
+            <>
+              <button className="button" onClick={() => navigate("/login")}>
+                Se connecter
+              </button>
+              <button className="button" onClick={() => navigate("/register")}>
+                Créer un compte
+              </button>
+            </>
+          )}
         </div>
       </Nav>
       <ResponsiveNav state={navbarState}>
@@ -151,7 +175,6 @@ navigate("/");
             <Link to="/checkout" onClick={() => setNavbarState(false)}>
               Panier
             </Link>
-
           </li>
           <li>
             <Link to="/login" onClick={() => setNavbarState(false)}>
@@ -167,7 +190,7 @@ navigate("/");
       </ResponsiveNav>
     </>
   );
-}
+};
 
 const Nav = styled.nav`
   display: flex;
@@ -241,11 +264,11 @@ const Nav = styled.nav`
     .button {
       display: none;
     }
-    .badge{
-      display:none;
+    .badge {
+      display: none;
     }
-    .cart{
-      display:none;
+    .cart {
+      display: none;
     }
   }
 `;
