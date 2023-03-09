@@ -17,6 +17,7 @@ import Success from "./pages/Success";
 import Error from "./pages/Error";
 import Cancel from "./pages/Cancel";
 import Profile from "./pages/Profile";
+import ProcessCheckout from "./pages/ProcessCheckout";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/checkout/process",
+    element: <ProcessCheckout />,
   },
 ]);
 

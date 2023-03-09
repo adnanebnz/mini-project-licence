@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography, Box } from "@mui/material";
+import noavatar from "../assets/noavatar.png"
 const Profile = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
@@ -37,8 +38,8 @@ const Profile = () => {
           justifyContent="center"
         >
           <img
-            src={data.img}
-            alt=""
+            src={data.img || noavatar}
+            alt={data.username}
             height="100px"
             width="100px"
             className="rounded-full object-contain"

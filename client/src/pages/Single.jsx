@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import axios from "axios";
@@ -10,6 +10,7 @@ import { Container, Typography, Box, Button, IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../state";
 import MapApp from "../Components/Map/MapApp";
+import Loading from "../Components/Loading";
 
 const Single = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Single = () => {
     <Container sx={{ marginTop: "90px", marginBottom: "50px" }}>
       <Container>
         <div className="flex gap-9">
+          <Suspense fallback={<Loading />}>
           <div className="h-96 w-96">
             <div>
               <img src={data.img} alt="" />
@@ -44,7 +46,7 @@ const Single = () => {
                 (10 reviews)
               </Typography>
             </Box>
-            <Box bgcolor="#FFEA28" padding="0.35rem" maxWidth="fit-content">
+            <Box bgcolor="#FFEA28" padding="0.35rem" maxWidth="fit-content" borderRadius="7px">
               <Typography
                 variant="h4"
                 fontSize="18px"
@@ -99,6 +101,7 @@ const Single = () => {
             </Box>
           </div>
           <div></div>
+          </Suspense>
         </div>
         <Box>
           <Typography variant="h3" fontSize="26px">

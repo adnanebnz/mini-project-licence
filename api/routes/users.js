@@ -36,7 +36,7 @@ router.post("/register", upload.single("image"), async (req, res, next) => {
       email: req.body.email,
       password: hashedPassword,
       age: req.body.age,
-      img: url + "/Images/" + req.file.filename,
+      img: url + "/Images/" + req?.file?.filename,
       isAdmin: req.body.isAdmin,
       isOrg: req.body.isOrg,
     });

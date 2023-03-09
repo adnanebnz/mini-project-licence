@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import StarIcon from "@mui/icons-material/Star";
 import axios from 'axios';
@@ -9,6 +9,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { Container, Typography, Box, Button,IconButton } from '@mui/material';
 import { useDispatch } from "react-redux";
 import { addToCart } from '../state';
+import Loading from '../Components/Loading';
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ const Product = () => {
     <Container sx={{ marginTop: "90px" }}>
       <Container sx={{ display: "flex", justifyContent: "center" }}>
         <div className="mb-20 mt-10 flex gap-9">
+          <Suspense fallback={<Loading />}>
+
+         
           <div className='h-96 w-96'>
             <Carousel autoPlay={true}>
                 <div>
@@ -44,7 +48,7 @@ const Product = () => {
           <div className='flex flex-col gap-2'>
             <Typography variant="h4" color="initial">{data.title}</Typography>
             <Box display="flex" alignItems="center" justifyContent="start">{Array(data.rating).fill(<StarIcon sx={{ color: "gold" }} />)} <Typography variant="h6" fontSize="16px">(10 reviews)</Typography></Box>
-            <Box bgcolor="#FFEA28" padding="0.35rem" maxWidth="fit-content">
+            <Box bgcolor="#FFEA28" padding="0.35rem" maxWidth="fit-content" borderRadius="7px">
                   <Typography variant="h4" fontSize="18px" sx={{fontWeight:500,color:"#343434"}}>{data.price} DZD</Typography>
                   </Box>
             <Typography variant='body1'>{data.desc}</Typography>
@@ -67,6 +71,7 @@ const Product = () => {
           </div>
           <div>
           </div>
+          </Suspense>
         </div>
       </Container>
     </Container>

@@ -103,7 +103,7 @@ const Shop = () => {
                     {item.desc.substring(0, 80)}...
                   </Typography>
                   <Box display="flex" justifyContent="center" alignItems="center" marginTop="10px" gap="0.5rem">
-                    <Box bgcolor="#FFEA28" padding="0.35rem">
+                    <Box bgcolor="#FFEA28" padding="0.35rem" borderRadius="7px">
                   <Typography variant="h4" fontSize="18px" sx={{fontWeight:500,color:"#343434"}}>{item.price} DZD</Typography>
                   </Box>
                   </Box>

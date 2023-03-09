@@ -1,3 +1,5 @@
+const { verifyUser } = require("../utils/verifyToken");
+const Order = require("../models/Order");
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const router = require("express").Router();
@@ -29,4 +31,15 @@ router.post("/create-checkout-session", async (req, res) => {
   res.send({ url: session.url });
 });
 
+//TODO
+router.post("/create-order", verifyUser, async (req, res, next) => {
+  const newOrder = new Order(req.body);
+
+  try {
+    const savedOrder = await newOrder.save();
+    res.status(200).send(savedOrder);
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;

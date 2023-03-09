@@ -41,20 +41,14 @@ const Header = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   return (
-    <>
+    <div>
       <Nav>
         <div className="brand">
           <div className="container" onClick={() => navigate("/")}>
             <img src={logoo} alt="" style={{ height: "50px" }} />
             DZHIKERS
           </div>
-          <div className="toggle">
-            {navbarState ? (
-              <VscChromeClose onClick={() => setNavbarState(false)} />
-            ) : (
-              <GiHamburgerMenu onClick={() => setNavbarState(true)} />
-            )}
-          </div>
+          
         </div>
 
         <ul>
@@ -96,7 +90,7 @@ const Header = () => {
             </IconButton>
           </Badge>
           {currentUser && (
-            <>
+            <div className="userInfos">
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton
                   id="basic-button"
@@ -112,6 +106,7 @@ const Header = () => {
                   />
                 </IconButton>
                 <Typography
+                className="username"
                   variant="h6"
                   fontWeight="600"
                   fontSize="16px"
@@ -135,7 +130,7 @@ const Header = () => {
                 </MenuItem>
                 <MenuItem onClick={handleDisconnect}>Se deconnecter</MenuItem>
               </Menu>
-            </>
+            </div>
           )}
           {!currentUser && (
             <>
@@ -148,6 +143,13 @@ const Header = () => {
             </>
           )}
         </div>
+        <div className="toggle">
+            {navbarState ? (
+              <VscChromeClose onClick={() => setNavbarState(false)} />
+            ) : (
+              <GiHamburgerMenu onClick={() => setNavbarState(true)} />
+            )}
+          </div>
       </Nav>
       <ResponsiveNav state={navbarState}>
         <ul>
@@ -176,6 +178,7 @@ const Header = () => {
               Panier
             </Link>
           </li>
+          {!currentUser && <>
           <li>
             <Link to="/login" onClick={() => setNavbarState(false)}>
               Se connecter
@@ -186,9 +189,12 @@ const Header = () => {
               Créer un Compte
             </Link>
           </li>
+          </>
+}
         </ul>
+  
       </ResponsiveNav>
-    </>
+    </div>
   );
 };
 
@@ -207,10 +213,12 @@ const Nav = styled.nav`
       font-weight: 900;
       text-transform: uppercase;
     }
-    .toggle {
+   
+  }
+  .toggle {
       display: none;
     }
-  }
+    
   ul {
     display: flex;
     gap: 1rem;
@@ -247,6 +255,7 @@ const Nav = styled.nav`
     &:hover {
       background-color: #0077b6;
     }
+  
   }
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     .brand {
@@ -254,9 +263,16 @@ const Nav = styled.nav`
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      .toggle {
+     
+    }
+    .toggle {
         display: block;
+        font-size: 20px;
+        align-self: center;
+        padding-left: 10px;
       }
+      .username {
+      display: none;
     }
     ul {
       display: none;
@@ -270,6 +286,9 @@ const Nav = styled.nav`
     .cart {
       display: none;
     }
+    .userInfos{
+      display:flex;
+    }
   }
 `;
 
@@ -279,7 +298,7 @@ const ResponsiveNav = styled.div`
   z-index: 1;
   top: ${({ state }) => (state ? "90px" : "-400px")};
   background-color: white;
-  height: 50vh;
+  height: auto;
   width: 100%;
   align-items: center;
   transition: 0.3s ease-in-out;
@@ -307,6 +326,15 @@ const ResponsiveNav = styled.div`
         }
       }
     }
+    .account{
+      text-decoration: none;
+      color: #0077b6;
+      font-size: 1.2rem;
+      transition: 0.1s ease-in-out;
+      &:hover {
+        color: #023e8a;
+      }
+  }
   }
 `;
 export default Header;
