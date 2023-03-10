@@ -26,7 +26,7 @@ app.use("/images", express.static("Images"));
 app.use("/api/pins", pinRoute);
 app.use("/api/users", userRoute);
 app.use("/api/items", itemRoute);
-app.use("/api/stripe", orderRoute);
+app.use("/api/orders", orderRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

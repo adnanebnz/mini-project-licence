@@ -32,12 +32,12 @@ router.post("/create-checkout-session", async (req, res) => {
 });
 
 //TODO
-router.post("/create-order", verifyUser, async (req, res, next) => {
+router.post("/create-order", async (req, res, next) => {
   const newOrder = new Order(req.body);
 
   try {
     const savedOrder = await newOrder.save();
-    res.status(200).send(savedOrder);
+    res.status(200).json(savedOrder);
   } catch (err) {
     next(err);
   }
