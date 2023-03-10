@@ -14,7 +14,6 @@ import Loading from "../Components/Loading";
 const Product = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log(id);
   const [data, setData] = useState([]);
   const [count, setCount] = useState(1);
   useEffect(() => {

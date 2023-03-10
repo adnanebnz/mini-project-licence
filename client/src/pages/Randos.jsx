@@ -35,7 +35,6 @@ const Randos = () => {
     };
     fetchData();
   }, []);
-  console.log(items);
   return (
     <div className="mt-11 mb-10">
       <Typography

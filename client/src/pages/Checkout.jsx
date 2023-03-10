@@ -23,19 +23,17 @@ import { useNavigate } from "react-router-dom";
 const Checkout = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cart);
-  console.log(cart);
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.price;
   }, 0);
   const [choice, setChoice] = useState(null);
   const [error, setError] = useState(null);
-  console.log(choice);
   async function makePayment(e) {
     e.preventDefault();
     if (choice === "credit" && totalPrice > 0) {
       await axios
         .post(
-          "http://localhost:8800/api/stripe/create-checkout-session",
+          "http://localhost:8800/api/orders/create-checkout-session",
           {
             cart,
           },
