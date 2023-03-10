@@ -111,7 +111,6 @@ export default function Recommend() {
         })}
       </div>
       <div className="flex justify-center mt-6">
-
         <MapApp />
       </div>
     </Section>

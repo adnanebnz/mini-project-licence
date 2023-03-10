@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography, Box } from "@mui/material";
-import noavatar from "../assets/noavatar.png"
+import noavatar from "../assets/noavatar.png";
 const Profile = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);

@@ -7,7 +7,9 @@ export default function Footer() {
   const date = new Date();
   return (
     <FooterContainer>
-      <span>Copyright &copy; {date.getFullYear()} DZHIKERS. All rights reserved</span>
+      <span>
+        Copyright &copy; {date.getFullYear()} DZHIKERS. All rights reserved
+      </span>
       <ul className="links">
         <li>
           <Link to="/">Acceuil</Link>

@@ -11,9 +11,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 function Copyright(props) {
   return (
@@ -33,38 +39,43 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();  
+const theme = createTheme();
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-    };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(undefined);
-  const [error,setError]= useState(undefined);
+  const [error, setError] = useState(undefined);
   const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0])
-  }
+    setSelectedFile(event.target.files[0]);
+  };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const values={
-      firstName:data.get("firstName"),
+    const values = {
+      firstName: data.get("firstName"),
       lastName: data.get("lastName"),
-      username:data.get("username"),
+      username: data.get("username"),
       email: data.get("email"),
-      image:selectedFile,
-      age:data.get("age"),
+      image: selectedFile,
+      age: data.get("age"),
       password: data.get("password"),
-    }
+    };
     try {
-      await axios.post("http://localhost:8800/api/users/register",values,{headers:{'Content-Type':'multipart/form-data'}},{withCredentials:true});
-      navigate("/")
+      await axios.post(
+        "http://localhost:8800/api/users/register",
+        values,
+        { headers: { "Content-Type": "multipart/form-data" } },
+        { withCredentials: true }
+      );
+      navigate("/");
     } catch (err) {
       setError(err.response.data.message);
-}
+    }
   };
   return (
     <ThemeProvider theme={theme}>
@@ -90,48 +101,48 @@ export default function Register() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <Box display="flex" gap ="10px">
-            <TextField
-              margin="normal"
-              required
-              id="lastName"
-              label="Nom"
-              name="lastName"
-              autoComplete="lasttName"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              id="firstName"
-              label="Prenom"
-              name="firstName"
-              autoComplete="firstName"
-              autoFocus
-            />
+            <Box display="flex" gap="10px">
+              <TextField
+                margin="normal"
+                required
+                id="lastName"
+                label="Nom"
+                name="lastName"
+                autoComplete="lasttName"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                id="firstName"
+                label="Prenom"
+                name="firstName"
+                autoComplete="firstName"
+                autoFocus
+              />
             </Box>
-            <Box display="flex" gap ="10px">
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Nom d'utulisateur"
-              name="username"
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-              id="age"
-              label="Votre age"
-              name="age"
-              autoComplete="age"
-              autoFocus
-            />
+            <Box display="flex" gap="10px">
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Nom d'utulisateur"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                id="age"
+                label="Votre age"
+                name="age"
+                autoComplete="age"
+                autoFocus
+              />
             </Box>
             <TextField
               margin="normal"
@@ -153,29 +164,35 @@ export default function Register() {
               autoComplete="email"
               autoFocus
             />
-            <FormControl variant="outlined" fullWidth sx={{marginTop:"10px"}}>
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-          fullWidth 
-            name="password"
-            id="outlined-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
-              {error && <Typography sx={{color:"red"}}>{error}</Typography>}
+            <FormControl
+              variant="outlined"
+              fullWidth
+              sx={{ marginTop: "10px" }}
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                fullWidth
+                name="password"
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            {error && <Typography sx={{ color: "red" }}>{error}</Typography>}
             <Button
               type="submit"
               fullWidth

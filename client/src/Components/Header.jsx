@@ -48,7 +48,6 @@ const Header = () => {
             <img src={logoo} alt="" style={{ height: "50px" }} />
             DZHIKERS
           </div>
-          
         </div>
 
         <ul>
@@ -106,7 +105,7 @@ const Header = () => {
                   />
                 </IconButton>
                 <Typography
-                className="username"
+                  className="username"
                   variant="h6"
                   fontWeight="600"
                   fontSize="16px"
@@ -144,12 +143,12 @@ const Header = () => {
           )}
         </div>
         <div className="toggle">
-            {navbarState ? (
-              <VscChromeClose onClick={() => setNavbarState(false)} />
-            ) : (
-              <GiHamburgerMenu onClick={() => setNavbarState(true)} />
-            )}
-          </div>
+          {navbarState ? (
+            <VscChromeClose onClick={() => setNavbarState(false)} />
+          ) : (
+            <GiHamburgerMenu onClick={() => setNavbarState(true)} />
+          )}
+        </div>
       </Nav>
       <ResponsiveNav state={navbarState}>
         <ul>
@@ -178,21 +177,21 @@ const Header = () => {
               Panier
             </Link>
           </li>
-          {!currentUser && <>
-          <li>
-            <Link to="/login" onClick={() => setNavbarState(false)}>
-              Se connecter
-            </Link>
-          </li>
-          <li>
-            <Link to="/register" onClick={() => setNavbarState(false)}>
-              Créer un Compte
-            </Link>
-          </li>
-          </>
-}
+          {!currentUser && (
+            <>
+              <li>
+                <Link to="/login" onClick={() => setNavbarState(false)}>
+                  Se connecter
+                </Link>
+              </li>
+              <li>
+                <Link to="/register" onClick={() => setNavbarState(false)}>
+                  Créer un Compte
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
-  
       </ResponsiveNav>
     </div>
   );
@@ -213,12 +212,11 @@ const Nav = styled.nav`
       font-weight: 900;
       text-transform: uppercase;
     }
-   
   }
   .toggle {
-      display: none;
-    }
-    
+    display: none;
+  }
+
   ul {
     display: flex;
     gap: 1rem;
@@ -255,7 +253,6 @@ const Nav = styled.nav`
     &:hover {
       background-color: #0077b6;
     }
-  
   }
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     .brand {
@@ -263,15 +260,14 @@ const Nav = styled.nav`
       justify-content: space-between;
       align-items: center;
       width: 100%;
-     
     }
     .toggle {
-        display: block;
-        font-size: 20px;
-        align-self: center;
-        padding-left: 10px;
-      }
-      .username {
+      display: block;
+      font-size: 20px;
+      align-self: center;
+      padding-left: 10px;
+    }
+    .username {
       display: none;
     }
     ul {
@@ -286,8 +282,8 @@ const Nav = styled.nav`
     .cart {
       display: none;
     }
-    .userInfos{
-      display:flex;
+    .userInfos {
+      display: flex;
     }
   }
 `;
@@ -326,7 +322,7 @@ const ResponsiveNav = styled.div`
         }
       }
     }
-    .account{
+    .account {
       text-decoration: none;
       color: #0077b6;
       font-size: 1.2rem;
@@ -334,7 +330,7 @@ const ResponsiveNav = styled.div`
       &:hover {
         color: #023e8a;
       }
-  }
+    }
   }
 `;
 export default Header;

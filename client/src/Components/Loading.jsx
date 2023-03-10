@@ -1,10 +1,10 @@
-import {Box,CircularProgress} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 const Loading = () => {
   return (
-    <Box sx={{ display: 'flex',justifyContent:"center",height:"100vh" }}>
-    <CircularProgress />
-  </Box>
-  )
-}
+    <Box sx={{ display: "flex", justifyContent: "center", height: "100vh" }}>
+      <CircularProgress />
+    </Box>
+  );
+};
 
-export default Loading
+export default Loading;
