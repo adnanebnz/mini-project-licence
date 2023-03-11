@@ -26,7 +26,7 @@ router.post("/", upload.array("images", 10), async (req, res, next) => {
     rating: req.body.rating,
     price: req.body.price,
     quantity: req.body.quantity,
-    categorie: req.body.categorie,
+    category: req.body.category,
   });
   try {
     const savedItem = await newItem.save();

@@ -1,5 +1,6 @@
 const { verifyUser } = require("../utils/verifyToken");
 const Order = require("../models/Order");
+const Item = require("../models/Item");
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const router = require("express").Router();
@@ -38,6 +39,23 @@ router.post("/create-order", async (req, res, next) => {
   try {
     const savedOrder = await newOrder.save();
     res.status(200).json(savedOrder);
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/:id", async (req, res, next) => {
+  try {
+    const order = await Order.find({ userId: req.params.id });
+    res.status(200).json(order);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const order = await Order.findOneAndDelete({ userId: req.params.id });
+    res.status(200).json("Order Deleted");
   } catch (err) {
     next(err);
   }

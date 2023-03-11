@@ -18,6 +18,7 @@ import Error from "./pages/Error";
 import Cancel from "./pages/Cancel";
 import Profile from "./pages/Profile";
 import ProcessCheckout from "./pages/ProcessCheckout";
+import UserDashboard from "./pages/userDashboard/UserDashboard";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/profile/:id",
         element: <Profile />,
+      },
+      {
+        path: "/profile/dashboard/:id",
+        element: <UserDashboard />,
       },
       {
         path: "/about",

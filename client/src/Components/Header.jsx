@@ -25,6 +25,11 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleDashboard = () => {
+    navigate(`/profile/dashboard/${currentUser.details._id}`);
+
+    setAnchorEl(null);
+  };
   const handleProfile = () => {
     navigate(`/profile/${currentUser.details._id}`);
     setAnchorEl(null);
@@ -124,7 +129,7 @@ const Header = () => {
                 }}
               >
                 <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleDashboard}>
                   Mes achats et réservations
                 </MenuItem>
                 <MenuItem onClick={handleDisconnect}>Se deconnecter</MenuItem>

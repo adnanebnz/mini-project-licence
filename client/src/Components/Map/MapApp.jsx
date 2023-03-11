@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import "./map.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import axios from "axios";
-import { format } from "timeago.js";
+import moment from "moment";
 export default function MapApp() {
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
@@ -71,7 +71,7 @@ export default function MapApp() {
                 <span className="username">
                   Created by <b>{p.organizer}</b>
                 </span>
-                <span className="date">{format(p.createdAt)}</span>
+                <span className="date">{moment(p.createdAt).fromNow()}</span>
               </div>
             </Popup>
           )}
