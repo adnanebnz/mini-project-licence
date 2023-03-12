@@ -83,7 +83,19 @@ const Randos = () => {
           </div>
         </div>
         {/* ITEMS */}
-        <div className="flex flex-wrap gap-9" style={{ flex: 7 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "3rem",
+            flexWrap: "wrap",
+            justifyContent: {
+              xs: "center",
+              sm: "start",
+            },
+            flex: "7",
+          }}
+        >
           {items.map((item) => (
             <div key={item._id}>
               <Card sx={{ maxWidth: "300px", cursor: "pointer" }} raised>
@@ -168,7 +180,7 @@ const Randos = () => {
               </Card>
             </div>
           ))}
-        </div>
+        </Box>
       </Box>
     </div>
   );

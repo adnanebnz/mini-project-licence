@@ -14,7 +14,22 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 const UserDashboard = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,14 +44,13 @@ const UserDashboard = () => {
     };
     fetchData();
   }, [id]);
-  const deleteOrder = async () => {
-    try {
-      axios.delete(`http://localhost:8800/api/orders/${id}`, {
-        withCredentials: true,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  const deleteOrder = async (order) => {
+    console.log(order);
+    await axios.delete(`http://localhost:8800/api/orders/${order}`, {
+      withCredentials: true,
+    });
+    setOpen(false);
+    setData(data.filter((item) => item._id !== order));
   };
 
   return (
@@ -63,12 +77,12 @@ const UserDashboard = () => {
           )}
           {data.length !== 0 && (
             <>
-              <Table size="medium" className="shadow-lg">
+              <Table className="shadow-lg">
                 <TableHead>
                   <TableRow>
                     <TableCell>Date</TableCell>
                     <TableCell>Produit / Réservation</TableCell>
-                    <TableCell>Total</TableCell>
+                    <TableCell align="left">Total</TableCell>
                     <TableCell>Status de delivrance</TableCell>
                     <TableCell>Status de paiement</TableCell>
                     <TableCell>Action</TableCell>
@@ -76,23 +90,93 @@ const UserDashboard = () => {
                 </TableHead>
                 <TableBody>
                   {data.map((row) => (
-                    <TableRow key={row._id}>
+                    <TableRow hover="true">
                       <TableCell>
                         {moment(row.createdAt).format("DD-MM-YYYY HH:mm ")}
                       </TableCell>
                       {row.products.map((product) => (
                         <div key={product._id}>
-                          <TableCell>{product.title}</TableCell>
+                          <TableCell>
+                            {product.title} ({product.count})
+                          </TableCell>
                         </div>
                       ))}
+
                       <TableCell>{row.total} DZD</TableCell>
 
-                      <TableCell>{row.delivery_status}</TableCell>
-                      <TableCell>{row.payment_status}</TableCell>
                       <TableCell>
-                        <IconButton size="medium" onClick={deleteOrder}>
-                          <DeleteForeverIcon sx={{ color: "tomato" }} />
-                        </IconButton>
+                        {row.delivery_status === "pending" && (
+                          <Typography
+                            color="error"
+                            size="small"
+                            textAlign="center"
+                          >
+                            En cours de traitement
+                          </Typography>
+                        )}
+                        {row.delivery_status === "shipping" && (
+                          <Typography
+                            className="text-amber-500"
+                            size="small"
+                            textAlign="center"
+                          >
+                            En cours d'expédition
+                          </Typography>
+                        )}
+                        {row.delivery_status === "done" && (
+                          <Typography
+                            className="text-green-600"
+                            size="small"
+                            textAlign="center"
+                          >
+                            Livrée
+                          </Typography>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {row.payment_status === "not payed" && (
+                          <Typography
+                            color="error"
+                            size="small"
+                            textAlign="center"
+                          >
+                            Non payée
+                          </Typography>
+                        )}
+                        {row.payment_status === "payed" && (
+                          <Typography
+                            className="text-green-600"
+                            size="small"
+                            textAlign="center"
+                          >
+                            Payée
+                          </Typography>
+                        )}
+                      </TableCell>
+
+                      <TableCell>
+                        {row.payment_status === "not payed" && (
+                          <IconButton>
+                            <DeleteForeverIcon
+                              sx={{ color: "tomato" }}
+                              onClick={handleClickOpen}
+                            />
+                          </IconButton>
+                        )}
+                        <Dialog open={open} keepMounted onClose={handleClose}>
+                          <DialogTitle>{"Annuler votre commande?"}</DialogTitle>
+                          <DialogContent>
+                            <DialogContentText>
+                              Vous annulerez votre commande. Êtes-vous sûr?
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose}>ANNULER</Button>
+                            <Button onClick={() => deleteOrder(row._id)}>
+                              ACCEPTER
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
                       </TableCell>
                     </TableRow>
                   ))}

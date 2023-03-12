@@ -77,14 +77,6 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
-      {
-        path: "/checkout/success",
-        element: <Success />,
-      },
-      {
-        path: "/checkout/cancel",
-        element: <Cancel />,
-      },
     ],
   },
   {
@@ -98,6 +90,14 @@ const router = createBrowserRouter([
   {
     path: "/checkout/process",
     element: <ProcessCheckout />,
+  },
+  {
+    path: "/checkout/success",
+    element: <Success />,
+  },
+  {
+    path: "/checkout/cancel",
+    element: <Cancel />,
   },
 ]);
 

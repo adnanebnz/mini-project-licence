@@ -67,7 +67,7 @@ const Shop = () => {
             sm: "row",
             xs: "column",
           },
-          justifyContent: "space-between",
+          justifyContent: "center",
           gap: {
             sm: "4rem",
             xs: "1rem",
@@ -83,15 +83,34 @@ const Shop = () => {
           </div>
         </div>
         {/* ITEMS */}
-        <div className="flex flex-wrap gap-9" style={{ flex: 7 }}>
+        {/* flex flex-wrap gap-9 items-center */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "3rem",
+            flexWrap: "wrap",
+            justifyContent: {
+              xs: "center",
+              sm: "start",
+            },
+            flex: "7",
+          }}
+        >
           {items.map((item) => (
             <div key={item._id}>
-              <Card sx={{ maxWidth: "300px", cursor: "pointer" }} raised>
+              <Card
+                sx={{
+                  maxWidth: "300px",
+                  maxHeight: "600px",
+                  cursor: "pointer",
+                }}
+                raised
+              >
                 <CardActionArea onClick={() => navigate(`${item._id}`)}>
                   <CardMedia
                     component="img"
-                    height="140"
-                    sx={{ maxHeight: "200px" }}
+                    sx={{ maxHeight: "200px", height: "200px" }}
                     image={item.img}
                   />
                   <CardContent>
@@ -168,7 +187,7 @@ const Shop = () => {
               </Card>
             </div>
           ))}
-        </div>
+        </Box>
       </Box>
     </div>
   );

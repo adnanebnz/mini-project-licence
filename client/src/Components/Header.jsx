@@ -69,7 +69,7 @@ const Header = () => {
             <Link to="/contact">Contact</Link>
           </li>
         </ul>
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <Badge
             className="badge"
             badgeContent={cart.length}
@@ -88,7 +88,7 @@ const Header = () => {
             <IconButton
               className="cart"
               onClick={() => dispatch(setIsCartOpen({}))}
-              sx={{ color: "black" }}
+              sx={{ color: "black", height: "40px" }}
             >
               <ShoppingBagOutlined />
             </IconButton>

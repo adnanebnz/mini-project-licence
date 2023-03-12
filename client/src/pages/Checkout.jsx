@@ -93,7 +93,7 @@ const Checkout = () => {
                             <img
                               src={item.img}
                               alt=""
-                              className="h-32 object-fill"
+                              className="h-20 object-fill"
                             />
                             <Typography>{item.title}</Typography>
                           </Box>

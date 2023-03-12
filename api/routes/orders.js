@@ -43,7 +43,7 @@ router.post("/create-order", async (req, res, next) => {
     next(err);
   }
 });
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", verifyUser, async (req, res, next) => {
   try {
     const order = await Order.find({ userId: req.params.id });
     res.status(200).json(order);
@@ -54,7 +54,7 @@ router.get("/:id", async (req, res, next) => {
 
 router.delete("/:id", async (req, res, next) => {
   try {
-    const order = await Order.findOneAndDelete({ userId: req.params.id });
+    await Order.findOneAndDelete({ _id: req.params.id });
     res.status(200).json("Order Deleted");
   } catch (err) {
     next(err);
