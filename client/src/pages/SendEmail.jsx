@@ -4,16 +4,14 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 function Copyright(props) {
   return (
     <Typography
@@ -36,12 +34,21 @@ const theme = createTheme();
 
 export default function ResetPassword() {
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     const email = data.get("email");
+    setOpen(true);
     console.log(email);
     try {
       await axios.post("http://localhost:8800/api/reset/forgot-password", {
@@ -96,6 +103,20 @@ export default function ResetPassword() {
             </Button>
           </Box>
         </Box>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%", backgroundColor: "lightgreen" }}
+          >
+            Un lien de vérification a été envoyé à votre adresse email!
+          </Alert>
+        </Snackbar>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>

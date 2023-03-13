@@ -26,10 +26,14 @@ const Checkout = () => {
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.price;
   }, 0);
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const [choice, setChoice] = useState(null);
   const [error, setError] = useState(null);
   async function makePayment(e) {
     e.preventDefault();
+    if (currentUser === null) {
+      return navigate("/login");
+    }
     if (choice === "credit" && totalPrice > 0) {
       await axios
         .post(
@@ -70,10 +74,10 @@ const Checkout = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{ fontWeight: "bold" }}>Produit</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
                       Prix
                     </TableCell>
-                    <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
                       Quantité
                     </TableCell>
                     {/* <TableCell align="right"  sx={{fontWeight:"bold"}}>Total</TableCell> */}

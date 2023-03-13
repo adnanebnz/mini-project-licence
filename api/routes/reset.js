@@ -2,7 +2,6 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 const { sendPasswordResetLink } = require("../utils/sendPasswordResetLink");
 require("dotenv").config();
 
