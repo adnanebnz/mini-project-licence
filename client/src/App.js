@@ -19,6 +19,8 @@ import Cancel from "./pages/Cancel";
 import Profile from "./pages/Profile";
 import ProcessCheckout from "./pages/ProcessCheckout";
 import UserDashboard from "./pages/userDashboard/UserDashboard";
+import SendEmail from "./pages/SendEmail";
+import ResetPassword from "./pages/ResetPassword";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -82,6 +84,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/reset-password",
+    element: <SendEmail />,
+  },
+  {
+    path: "/reset-password/:id/:token",
+    element: <ResetPassword />,
   },
   {
     path: "/login",

@@ -135,7 +135,7 @@ const Randos = () => {
                           fontSize="18px"
                           sx={{ fontWeight: 500, color: "#343434" }}
                         >
-                          {item.price} DZD
+                          {item.price} د.ج
                         </Typography>
                       </Box>
                     </Box>

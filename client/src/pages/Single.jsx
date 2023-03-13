@@ -55,7 +55,7 @@ const Single = () => {
                   fontSize="18px"
                   sx={{ fontWeight: 500, color: "#343434" }}
                 >
-                  {data.price} DZD
+                  {data.price} د.ج
                 </Typography>
               </Box>
               <Typography variant="body1">{data.desc}</Typography>

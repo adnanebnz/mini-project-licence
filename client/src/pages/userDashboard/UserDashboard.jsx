@@ -45,12 +45,15 @@ const UserDashboard = () => {
     fetchData();
   }, [id]);
   const deleteOrder = async (order) => {
-    console.log(order);
-    await axios.delete(`http://localhost:8800/api/orders/${order}`, {
-      withCredentials: true,
-    });
-    setOpen(false);
-    setData(data.filter((item) => item._id !== order));
+    try {
+      await axios.delete(`http://localhost:8800/api/orders/${order}`, {
+        withCredentials: true,
+      });
+      setOpen(false);
+      setData(data.filter((item) => item._id !== order));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -102,7 +105,7 @@ const UserDashboard = () => {
                         </div>
                       ))}
 
-                      <TableCell>{row.total} DZD</TableCell>
+                      <TableCell>{row.total} د.ج</TableCell>
 
                       <TableCell>
                         {row.delivery_status === "pending" && (

@@ -15,7 +15,7 @@ export default function ScrollToTop() {
 
   return (
     <ToTop onClick={toTop} scrollState={scrollState}>
-      <ArrowUpwardIcon />
+      <ArrowUpwardIcon sx={{ color: "white" }} />
     </ToTop>
   );
 }
@@ -31,6 +31,6 @@ const ToTop = styled.div`
     height: 1.5rem;
   }
   border-radius: 2rem;
-  background-color: #1900ff39;
+  background-color: #1e90ff;
   padding: 1rem;
 `;

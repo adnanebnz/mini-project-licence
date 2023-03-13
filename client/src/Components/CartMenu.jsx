@@ -110,7 +110,7 @@ const CartMenu = () => {
                         </IconButton>
                       </Box>
                       <Typography fontWeight="bold">
-                        {item.price} DZD
+                        {item.price} د.ج
                       </Typography>
                     </FlexBox>
                   </Box>
@@ -124,7 +124,7 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography fontWeight="bold">Total</Typography>
-              <Typography fontWeight="bold">{totalPrice} DZD</Typography>
+              <Typography fontWeight="bold">{totalPrice} د.ج</Typography>
             </FlexBox>
             <Box display="flex" justifyContent="center" alignItems="center">
               <Button

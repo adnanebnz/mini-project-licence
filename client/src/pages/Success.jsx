@@ -14,22 +14,31 @@ const Success = () => {
           width: 500,
           height: 500,
         }}
-        className="w-1/2 h-1/2 flex flex-col gap-2 items-center justify-center shadow-lg hover:shadow-2xl"
+        className="w-1/2 h-1/2 flex flex-col gap-9 items-center justify-center shadow-lg hover:shadow-2xl"
       >
-        <CheckCircleSharpIcon sx={{ fontSize: "52px", color: "green" }} />
-        <Typography
-          variant="h3"
-          sx={{ alignContent: "center", fontWeight: "bold" }}
-          className="text-lime-500 text-center"
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
         >
-          SUCCESS
-        </Typography>
-        <Typography variant="h4" className="text-center">
-          votre opération de paiement est valider
-        </Typography>
-        <Button variant="contained" onClick={() => navigate("/")}>
-          Page d'acceuil
-        </Button>
+          <CheckCircleSharpIcon sx={{ fontSize: "52px", color: "green" }} />
+          <Typography
+            variant="h3"
+            sx={{ alignContent: "center", fontWeight: "bold" }}
+            className="text-lime-500"
+          >
+            SUCCESS
+          </Typography>
+          <Typography variant="h4" fontSize="22px">
+            Votre commande est en cours de traitement
+          </Typography>
+        </Box>
+        <Box>
+          <Button variant="contained" onClick={() => navigate("/")}>
+            Page d'acceuil
+          </Button>
+        </Box>
       </Box>
     </div>
   );
