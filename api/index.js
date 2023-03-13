@@ -7,6 +7,8 @@ const pinRoute = require("./routes/pins");
 const userRoute = require("./routes/users");
 const itemRoute = require("./routes/items");
 const orderRoute = require("./routes/orders");
+const resetPasswordRoute = require("./routes/reset");
+
 mongoose.set("strictQuery", false);
 
 mongoose
@@ -25,9 +27,11 @@ app.use("/images", express.static("Images"));
 
 app.use("/api/pins", pinRoute);
 app.use("/api/users", userRoute);
+app.use("/api/reset", resetPasswordRoute);
 app.use("/api/items", itemRoute);
 app.use("/api/orders", orderRoute);
 
+//ERROR HANDLING
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
@@ -39,6 +43,8 @@ app.use((err, req, res, next) => {
   });
 });
 
+//SERVER STARTUP
+
 app.listen(8800, () => {
-  console.log("Server listening at port 8800");
+  console.log("Server listening at port 8800 🚀");
 });

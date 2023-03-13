@@ -80,5 +80,15 @@ router.delete("/:id", async (req, res, next) => {
     next(err);
   }
 });
+router.get("/:category/", async (req, res, next) => {
+  try {
+    const items = await Item.find({
+      category: req.query.category,
+    });
+    res.status(200).json(items);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

@@ -5,8 +5,12 @@ const orderSchema = new mongoose.Schema(
     userId: { type: String, required: true },
     products: [
       {
-        productId: { type: String },
+        _id: {
+          type: mongoose.Types.ObjectId,
+          ref: "Item",
+        },
         title: { type: String },
+        quantity: { type: Number },
         count: { type: Number, default: 1 },
         price: { type: Number },
       },
