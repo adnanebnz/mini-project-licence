@@ -21,6 +21,7 @@ import ProcessCheckout from "./pages/ProcessCheckout";
 import UserDashboard from "./pages/userDashboard/UserDashboard";
 import SendEmail from "./pages/SendEmail";
 import ResetPassword from "./pages/ResetPassword";
+import AdminDashBoard from "./pages/admin/AdminDashBoard";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/profile/dashboard/:id",
         element: <UserDashboard />,
+      },
+      {
+        path: "/admin/dashboard/:id",
+        element: <AdminDashBoard />,
       },
       {
         path: "/about",

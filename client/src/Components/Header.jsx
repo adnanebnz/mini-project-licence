@@ -44,7 +44,7 @@ const Header = () => {
     navigate("/");
   };
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+  console.log(currentUser);
   return (
     <div>
       <Nav>
@@ -129,9 +129,20 @@ const Header = () => {
                 }}
               >
                 <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleDashboard}>
-                  Mes achats et réservations
-                </MenuItem>
+                {!currentUser.isAdmin && (
+                  <MenuItem onClick={handleDashboard}>
+                    Mes achats et réservations
+                  </MenuItem>
+                )}
+                {currentUser.isAdmin && (
+                  <MenuItem
+                    onClick={() =>
+                      navigate(`/admin/dashboard/${currentUser.details._id}`)
+                    }
+                  >
+                    Dashboard
+                  </MenuItem>
+                )}
                 <MenuItem onClick={handleDisconnect}>Se deconnecter</MenuItem>
               </Menu>
             </div>

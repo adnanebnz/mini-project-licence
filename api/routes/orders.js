@@ -1,4 +1,4 @@
-const { verifyUser } = require("../utils/verifyToken");
+const { verifyUser, verifyAdmin } = require("../utils/verifyToken");
 const Order = require("../models/Order");
 const Item = require("../models/Item");
 require("dotenv").config();
@@ -63,6 +63,14 @@ router.get("/:id", verifyUser, async (req, res, next) => {
   try {
     const order = await Order.find({ userId: req.params.id });
     res.status(200).json(order);
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/", async (req, res, next) => {
+  try {
+    const orders = await Order.find();
+    res.status(200).json(orders);
   } catch (err) {
     next(err);
   }

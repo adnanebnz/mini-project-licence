@@ -8,6 +8,7 @@ const userRoute = require("./routes/users");
 const itemRoute = require("./routes/items");
 const orderRoute = require("./routes/orders");
 const resetPasswordRoute = require("./routes/reset");
+const messagesRoute = require("./routes/messages");
 
 mongoose.set("strictQuery", false);
 
@@ -30,6 +31,7 @@ app.use("/api/users", userRoute);
 app.use("/api/reset", resetPasswordRoute);
 app.use("/api/items", itemRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/messages", messagesRoute);
 
 //ERROR HANDLING
 app.use((err, req, res, next) => {
