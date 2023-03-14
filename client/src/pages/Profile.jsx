@@ -20,6 +20,7 @@ const Profile = () => {
     };
     fetchData();
   }, [id]);
+  console.log(data)
   return (
     <Box marginTop="70px" marginBottom="50px">
       {error && (
@@ -37,13 +38,25 @@ const Profile = () => {
           alignItems="center"
           justifyContent="center"
         >
+          {data.img!=="http://localhost:8800/Images/undefined" && (
           <img
-            src={data.img || noavatar}
-            alt={data.username}
+            src={data.img}
+            alt=""
             height="100px"
             width="100px"
             className="rounded-full object-contain"
           />
+          )}
+          {data.img === "http://localhost:8800/Images/undefined" && (
+            <img
+            src={noavatar}
+            alt=""
+            height="100px"
+            width="100px"
+            className="rounded-full object-contain"
+          />
+          )}
+
           <Typography>Nom : {data.lastName}</Typography>
           <Typography>Prénom : {data.firstName}</Typography>
           <Typography>Email : {data.email}</Typography>
