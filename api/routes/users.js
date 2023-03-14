@@ -22,6 +22,11 @@ const upload = multer({ storage: storage });
 //Register a user
 
 router.post("/register", upload.single("image"), async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    return next(createError(400, "Cet email est déjà utilisé!"));
+  }
+
   try {
     //generate a new password
     const salt = bcrypt.genSaltSync(10);

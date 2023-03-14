@@ -215,7 +215,7 @@ export default function Register() {
                 label="Password"
               />
             </FormControl>
-            {error && <Typography sx={{ color: "red" }}>{error}</Typography>}
+            {error && <Typography sx={{ color: "red" }} textAlign="center">{error}</Typography>}
             <Button
               type="submit"
               fullWidth
