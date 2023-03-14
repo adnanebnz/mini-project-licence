@@ -13,14 +13,21 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
 import {
+  Fab,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  AddCircleOutline,
+  AddIcCallOutlined,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 function Copyright(props) {
   return (
     <Typography
@@ -144,16 +151,32 @@ export default function Register() {
                 autoFocus
               />
             </Box>
-            <TextField
-              margin="normal"
-              type="file"
-              required
-              fullWidth
-              id="image"
-              name="image"
-              autoFocus
-              onChange={handleFileSelect}
-            />
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              marginTop="5px"
+            >
+              <label htmlFor="image">
+                <input
+                  style={{ display: "none" }}
+                  id="image"
+                  name="image"
+                  type="file"
+                  onChange={handleFileSelect}
+                />
+
+                <Fab
+                  color="primary"
+                  size="small"
+                  component="span"
+                  aria-label="add"
+                  variant="extended"
+                >
+                  <AddIcon /> Ajouter une photo de profil
+                </Fab>
+              </label>
+            </Box>
             <TextField
               margin="normal"
               required
