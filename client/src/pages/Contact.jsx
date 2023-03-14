@@ -2,7 +2,35 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SupportIcon from "@mui/icons-material/Support";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import { Alert, Snackbar } from "@mui/material";
+import { useState } from "react";
+import axios from "axios";
 const Contact = () => {
+  const [open, setOpen] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      firstName: e.target[0].value,
+      lastName: e.target[1].value,
+      email: e.target[2].value,
+      msg: e.target[3].value,
+    };
+    try {
+      await axios.post("http://localhost:8800/api/messages", data, {
+        withCredentials: true,
+      });
+      setOpen(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="p-5">
       <h1 className="text-2xl text-center mt-6">Envoyez nous un message!</h1>
@@ -72,7 +100,7 @@ const Contact = () => {
           </Box>
         </div>
         {/* Form */}
-        <form className="flex flex-col gap-3 p-4 mt-2">
+        <form className="flex flex-col gap-3 p-4 mt-2" onSubmit={handleSubmit}>
           <Typography
             variant="h2"
             sx={{
@@ -85,30 +113,51 @@ const Contact = () => {
           <input
             type="text"
             placeholder="Nom"
+            name="nom"
             required
             className="px-2 py-3 border border-solid border-black"
           />
           <input
             type="text"
+            name="prenom"
             placeholder="Prenom"
             required
             className="px-2 py-3 border border-solid border-black"
           />
           <input
             type="email"
+            name="email"
             placeholder="Email@example.com"
             required
             className="px-2 py-3 border border-solid border-black"
           />
           <textarea
             placeholder="Ecrivez quelque chose..."
+            name="msg"
             className="px-2 py-5 border border-solid border-black"
           />
-          <button className="border border-solid border-black h-10 w-28 hover:bg-gray-200">
+          <button
+            type="submit"
+            className="border border-solid border-black h-10 w-28 hover:bg-gray-200"
+          >
             Envoyer
           </button>
         </form>
       </Box>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{ width: "100%", backgroundColor: "lightgreen" }}
+        >
+          Votre message a était envoyé avec succès!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

@@ -26,7 +26,7 @@ router.post("/", upload.array("images", 10), async (req, res, next) => {
     rating: req.body.rating,
     price: req.body.price,
     quantity: req.body.quantity,
-    categorie: req.body.categorie,
+    category: req.body.category,
   });
   try {
     const savedItem = await newItem.save();
@@ -76,6 +76,16 @@ router.delete("/:id", async (req, res, next) => {
   try {
     await Item.findByIdAndDelete(req.params.id);
     res.status(200).json("Item deleted");
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/:category/", async (req, res, next) => {
+  try {
+    const items = await Item.find({
+      category: req.query.category,
+    });
+    res.status(200).json(items);
   } catch (err) {
     next(err);
   }

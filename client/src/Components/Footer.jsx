@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   const date = new Date();
   return (
-    <FooterContainer>
-      <span>Copyright &copy; {date.getFullYear()} DZHIKERS. All rights reserved</span>
-      <ul className="links">
+    <FooterContainer className="text-white">
+      <span className="text-white">
+        Copyright &copy; {date.getFullYear()} DZHIKERS. All rights reserved
+      </span>
+      <ul className="links text-white">
         <li>
           <Link to="/">Acceuil</Link>
         </li>
@@ -40,7 +42,7 @@ export default function Footer() {
 const FooterContainer = styled.footer`
   display: flex;
   justify-content: space-evenly;
-  background-color: #d0d8ff;
+  background-color: #0083ce;
   border-radius: 0.5rem;
   padding: 2.5rem;
 
@@ -51,17 +53,17 @@ const FooterContainer = styled.footer`
     li {
       a {
         text-decoration: none;
-        color: black;
+        color: white;
         transition: 0.3s ease-in-out;
         &:hover {
-          color: #302ce9;
+          color: #c7defa;
         }
       }
       svg {
         font-size: 1.3rem;
         transition: 0.3s ease-in-out;
         &:hover {
-          color: #302ce9;
+          color: #c7defa;
         }
       }
     }

@@ -19,7 +19,7 @@ const upload = multer({ storage: storage });
 router.post("/", upload.single("image"), async (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
   const newPin = new Pin({
-    username: req.body.username,
+    organizer: req.body.organizer,
     title: req.body.title,
     desc: req.body.desc,
     rating: req.body.rating,

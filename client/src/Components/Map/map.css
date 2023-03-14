@@ -1,31 +1,31 @@
 .card {
-    width: 190px;
-    height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  width: 190px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .label {
-    width: max-content;
-    color: tomato;
-    font-size: 12px;
-    border-bottom: 0.3px solid tomato;
-    margin: 2px 0;
+  width: max-content;
+  color: tomato;
+  font-size: 12px;
+  border-bottom: 0.3px solid tomato;
+  margin: 2px 0;
 }
 
 .desc {
-    font-size: 11px;
+  font-size: 11px;
 }
 
 .star {
-    color: gold;
+  color: gold;
 }
 
 .username {
-    font-size: 11px;
+  font-size: 11px;
 }
 
 .date {
-    font-size: 11px;
+  font-size: 11px;
 }

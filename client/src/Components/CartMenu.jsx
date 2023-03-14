@@ -50,7 +50,9 @@ const CartMenu = () => {
         <Box padding="30px" overflow="auto" height="100%">
           {/* HEADER */}
           <FlexBox mb="15px">
-            <Typography variant="h2" fontSize="22px">Votre Panier ({cart.length})</Typography>
+            <Typography variant="h2" fontSize="22px">
+              Votre Panier ({cart.length})
+            </Typography>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))}>
               <CloseIcon />
             </IconButton>
@@ -62,7 +64,7 @@ const CartMenu = () => {
               <Box key={`${item._id}-${item._id}`}>
                 <FlexBox p="15px 0">
                   <Box flex="1 1 40%">
-                  <img
+                    <img
                       alt={item?.title}
                       width="123px"
                       height="164px"
@@ -82,7 +84,9 @@ const CartMenu = () => {
                         <CloseIcon />
                       </IconButton>
                     </FlexBox>
-                    <Typography fontSize="14px">{item.desc.substring(0, 50)}...</Typography>
+                    <Typography fontSize="14px">
+                      {item.desc.substring(0, 50)}...
+                    </Typography>
                     <FlexBox m="15px 0">
                       <Box
                         display="flex"
@@ -106,7 +110,7 @@ const CartMenu = () => {
                         </IconButton>
                       </Box>
                       <Typography fontWeight="bold">
-                        {item.price} DZD
+                        {item.price} د.ج
                       </Typography>
                     </FlexBox>
                   </Box>
@@ -120,30 +124,29 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography fontWeight="bold">Total</Typography>
-              <Typography fontWeight="bold">{totalPrice} DZD</Typography>
+              <Typography fontWeight="bold">{totalPrice} د.ج</Typography>
             </FlexBox>
             <Box display="flex" justifyContent="center" alignItems="center">
-            <Button
-              sx={{
-                backgroundColor: "#2d55ff",
-                '&:hover': {
+              <Button
+                sx={{
+                  backgroundColor: "#2d55ff",
+                  "&:hover": {
                     backgroundColor: "#0077b6",
                   },
-                color: "white",
-                borderRadius: 0,
-                minWidth: "80%",
-                padding: "15px 30px",
-                m: "20px 0",
-                fontSize:"16px",
-               
-              }}
-              onClick={() => {
-                navigate("/checkout");
-                dispatch(setIsCartOpen({}));
-              }}
-            >
-              Payer
-            </Button>
+                  color: "white",
+                  borderRadius: 0,
+                  minWidth: "80%",
+                  padding: "15px 30px",
+                  m: "20px 0",
+                  fontSize: "16px",
+                }}
+                onClick={() => {
+                  navigate("/checkout");
+                  dispatch(setIsCartOpen({}));
+                }}
+              >
+                Payer
+              </Button>
             </Box>
           </Box>
         </Box>

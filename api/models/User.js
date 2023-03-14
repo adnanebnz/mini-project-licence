@@ -4,37 +4,36 @@ const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      require: true,
+      required: true,
       min: 3,
       max: 20,
       unique: true,
     },
     firstName: {
       type: String,
-      require: true,
+      required: true,
     },
     lastName: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       max: 50,
       unique: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
       min: 2,
     },
     age: {
       type: Number,
-      require: true,
+      required: true,
     },
     img: {
       type: String,
-      require: true,
     },
     isAdmin: {
       type: Boolean,

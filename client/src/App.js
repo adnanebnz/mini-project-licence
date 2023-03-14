@@ -16,6 +16,12 @@ import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import Error from "./pages/Error";
 import Cancel from "./pages/Cancel";
+import Profile from "./pages/Profile";
+import ProcessCheckout from "./pages/ProcessCheckout";
+import UserDashboard from "./pages/userDashboard/UserDashboard";
+import SendEmail from "./pages/SendEmail";
+import ResetPassword from "./pages/ResetPassword";
+import AdminDashBoard from "./pages/admin/AdminDashBoard";
 const Layout = () => {
   return (
     <div className="m-4">
@@ -55,6 +61,18 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
+        path: "/profile/:id",
+        element: <Profile />,
+      },
+      {
+        path: "/profile/dashboard/:id",
+        element: <UserDashboard />,
+      },
+      {
+        path: "/admin/dashboard/:id",
+        element: <AdminDashBoard />,
+      },
+      {
         path: "/about",
         element: <About />,
       },
@@ -66,14 +84,6 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
-      {
-        path: "/checkout/success",
-        element: <Success />,
-      },
-      {
-        path: "/checkout/cancel",
-        element: <Cancel />,
-      },
     ],
   },
   {
@@ -81,8 +91,28 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/reset-password",
+    element: <SendEmail />,
+  },
+  {
+    path: "/reset-password/:id/:token",
+    element: <ResetPassword />,
+  },
+  {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/checkout/process",
+    element: <ProcessCheckout />,
+  },
+  {
+    path: "/checkout/success",
+    element: <Success />,
+  },
+  {
+    path: "/checkout/cancel",
+    element: <Cancel />,
   },
 ]);
 
