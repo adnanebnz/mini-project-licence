@@ -20,7 +20,6 @@ const Profile = () => {
     };
     fetchData();
   }, [id]);
-  console.log(data)
   return (
     <Box marginTop="70px" marginBottom="50px">
       {error && (

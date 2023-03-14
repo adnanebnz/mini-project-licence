@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   Card,
+  Container,
   CardMedia,
   CardContent,
   CardActions,
@@ -59,43 +60,18 @@ const Randos = () => {
           <Chip label="Boots" variant="outlined" />
         </Stack>
       </Box>
+      <Container maxWidth="lg">
       <Box
-        display="flex"
-        padding="0px 15px"
-        sx={{
-          flexDirection: {
-            sm: "row",
-            xs: "column",
-          },
-          justifyContent: "space-between",
-          gap: {
-            sm: "4rem",
-            xs: "1rem",
-          },
+        display="grid"
+        gridTemplateColumns={{
+          xs: "repeat(1, 1fr)",
+          sm: "repeat(3, 1fr)",
         }}
+        gap="1rem"
+        padding="0px 15px"
       >
-        <div style={{ flex: "1" }} className="mb-10">
-          <div className="border border-solid border-[#343434] p-3 w-full">
-            <Typography fontWeight="400" textAlign="center">
-              FILTRER
-            </Typography>
-            <div className="flex items-center justify-content-center"></div>
-          </div>
-        </div>
         {/* ITEMS */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "3rem",
-            flexWrap: "wrap",
-            justifyContent: {
-              xs: "center",
-              sm: "start",
-            },
-            flex: "7",
-          }}
-        >
+        
           {items.map((item) => (
             <div key={item._id}>
               <Card sx={{ maxWidth: "300px", cursor: "pointer" }} raised>
@@ -181,7 +157,7 @@ const Randos = () => {
             </div>
           ))}
         </Box>
-      </Box>
+        </Container>
     </div>
   );
 };

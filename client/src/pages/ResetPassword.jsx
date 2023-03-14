@@ -46,7 +46,6 @@ const ResetPassword = () => {
         const res = await axios.get(
           `http://localhost:8800/api/reset/reset-password/${id}/${token}`
         );
-        console.log(res);
       } catch (err) {
         console.log(err);
       }
@@ -58,7 +57,6 @@ const ResetPassword = () => {
     const data = new FormData(e.currentTarget);
     const password = data.get("password");
     const confirmPassword = data.get("confirmPassword");
-    console.log(password, confirmPassword);
     if (password !== confirmPassword) {
       alert("Passwords do not match");
     } else {
@@ -68,7 +66,6 @@ const ResetPassword = () => {
           { password: password },
           { withCredentials: true }
         );
-        console.log(res);
         navigate("/login");
       } catch (err) {
         console.log(err);

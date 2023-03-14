@@ -18,7 +18,6 @@ const AdminDashBoard = () => {
     };
     fetchData();
   }, []);
-  console.log(data);
   return (
     <div>
       {loading && <Loading />}

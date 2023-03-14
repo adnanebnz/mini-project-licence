@@ -49,7 +49,6 @@ export default function ResetPassword() {
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     setOpen(true);
-    console.log(email);
     try {
       await axios.post("http://localhost:8800/api/reset/forgot-password", {
         email: email,

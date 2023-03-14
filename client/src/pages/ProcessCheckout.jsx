@@ -62,7 +62,6 @@ const ProcessCheckout = () => {
       console.log(error);
     }
   }
-  console.log(cart);
   return (
     <Box width="80%" m="100px auto">
       <Stepper activeStep={activeStep} sx={{ m: "20px 0" }}>

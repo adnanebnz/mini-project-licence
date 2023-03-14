@@ -14,7 +14,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../state";
-
 const Shop = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
